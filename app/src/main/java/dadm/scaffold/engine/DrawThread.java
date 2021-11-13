@@ -25,6 +25,10 @@ public class DrawThread extends Thread {
         resumeGame();
     }
 
+    /**
+     * Llama el método onDraw del gameEngine cada x milisegundos, en nuestro caso
+     * lo estamos haciendo para 50fps.
+     */
     @Override
     public void run() {
         long elapsedMillis;
@@ -63,7 +67,7 @@ public class DrawThread extends Thread {
     }
 
     public void resumeGame() {
-        if (isGamePaused == true) {
+        if (isGamePaused) {
             isGamePaused = false;
             synchronized (synchroLock) {
                 synchroLock.notify();

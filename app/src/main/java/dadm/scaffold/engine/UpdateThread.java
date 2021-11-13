@@ -24,6 +24,10 @@ public class UpdateThread extends Thread {
         resumeGame();
     }
 
+    /**
+     * Ejecuta constantemente el método OnUpdate sobre el motor del juego y le pasa
+     * los milisegundos desde la última ejecución.
+     */
     @Override
     public void run() {
         long previousTimeMillis;
@@ -56,7 +60,7 @@ public class UpdateThread extends Thread {
     }
 
     public void resumeGame() {
-        if (isGamePaused == true) {
+        if (isGamePaused) {
             isGamePaused = false;
             synchronized (synchroLock) {
                 synchroLock.notify();
