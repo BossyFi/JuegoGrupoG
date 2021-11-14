@@ -29,6 +29,8 @@ public class StandardGameView extends View implements GameView {
 
     @Override
     public void draw() {
+        //Esto ejecuta el onDraw, básicamente permite que corra un Runnable en el UIThread y después
+        //invalida la vista actual para poner la nueva.
         postInvalidate();
     }
 

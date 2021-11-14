@@ -15,6 +15,7 @@ import dadm.scaffold.ScaffoldActivity;
 import dadm.scaffold.engine.FramesPerSecondCounter;
 import dadm.scaffold.engine.GameEngine;
 import dadm.scaffold.engine.GameView;
+import dadm.scaffold.engine.ParallaxBackground;
 import dadm.scaffold.input.JoystickInputController;
 import dadm.scaffold.space.GameController;
 import dadm.scaffold.space.SpaceShipPlayer;
@@ -38,15 +39,16 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
         super.onViewCreated(view, savedInstanceState);
         view.findViewById(R.id.btn_play_pause).setOnClickListener(this);
         final ViewTreeObserver observer = view.getViewTreeObserver();
-        observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener(){
+        observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
-            public void onGlobalLayout(){
+            public void onGlobalLayout() {
                 //Para evitar que sea llamado múltiples veces,
                 //se elimina el listener en cuanto es llamado
                 observer.removeOnGlobalLayoutListener(this);
                 GameView gameView = (GameView) getView().findViewById(R.id.gameView);
                 theGameEngine = new GameEngine(getActivity(), gameView);
                 theGameEngine.setTheInputController(new JoystickInputController(getView()));
+                theGameEngine.addGameObject(new ParallaxBackground(theGameEngine, 20, R.drawable.seamless_space_0));
                 theGameEngine.addGameObject(new SpaceShipPlayer(theGameEngine));
                 theGameEngine.addGameObject(new FramesPerSecondCounter(theGameEngine));
                 theGameEngine.addGameObject(new GameController(theGameEngine));
@@ -67,7 +69,7 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onPause() {
         super.onPause();
-        if (theGameEngine.isRunning()){
+        if (theGameEngine.isRunning()) {
             pauseGameAndShowPauseDialog();
         }
     }
@@ -104,7 +106,7 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         theGameEngine.stopGame();
-                        ((ScaffoldActivity)getActivity()).navigateBack();
+                        ((ScaffoldActivity) getActivity()).navigateBack();
                     }
                 })
                 .setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -123,8 +125,7 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
         if (theGameEngine.isPaused()) {
             theGameEngine.resumeGame();
             button.setText(R.string.pause);
-        }
-        else {
+        } else {
             theGameEngine.pauseGame();
             button.setText(R.string.resume);
         }

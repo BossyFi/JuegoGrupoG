@@ -3,7 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/bozis/Downloads/DADM_21-22_parejaG_P3/app/src/main/res/layout/fragment_game.xml" value="0.259375" />
+        <entry key="..\:/Users/bozis/Downloads/DADM_21-22_parejaG_P3/app/src/main/res/layout/activity_scaffold.xml" value="0.25833333333333336" />
+        <entry key="..\:/Users/bozis/Downloads/DADM_21-22_parejaG_P3/app/src/main/res/layout/fragment_game.xml" value="0.1" />
+        <entry key="..\:/Users/bozis/Downloads/DADM_21-22_parejaG_P3/app/src/main/res/layout/fragment_main_menu.xml" value="0.25833333333333336" />
+        <entry key="..\:/Users/bozis/Downloads/DADM_21-22_parejaG_P3/app/src/main/res/layout/view_joystick.xml" value="0.1" />
+        <entry key="..\:/Users/bozis/Downloads/DADM_21-22_parejaG_P3/app/src/main/res/layout/view_keypad.xml" value="0.1" />
       </map>
     </option>
   </component>
