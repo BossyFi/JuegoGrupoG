@@ -15,6 +15,10 @@ public abstract class Sprite extends ScreenGameObject {
 
     protected double pixelFactor;
 
+    protected float scale = 1f;
+
+    protected int alpha = 255;
+
     private final Bitmap bitmap;
 
     private final Matrix matrix = new Matrix();
@@ -27,8 +31,8 @@ public abstract class Sprite extends ScreenGameObject {
         paint = new Paint();
         this.pixelFactor = gameEngine.pixelFactor;
 
-        this.width = (int) (spriteDrawable.getIntrinsicWidth() * this.pixelFactor);
-        this.height = (int) (spriteDrawable.getIntrinsicHeight() * this.pixelFactor);
+        this.width = (int) (spriteDrawable.getIntrinsicWidth() * this.pixelFactor * scale);
+        this.height = (int) (spriteDrawable.getIntrinsicHeight() * this.pixelFactor * scale);
 
         this.bitmap = ((BitmapDrawable) spriteDrawable).getBitmap();
 
@@ -56,17 +60,27 @@ public abstract class Sprite extends ScreenGameObject {
         if (mBodyType == BodyType.Circular) {
             canvas.drawCircle(
                     (int) (positionX + width / 2),
-                    (int) (positionY + height / 2),
+                    (int) (positionY + height/ 2),
                     (int) radius,
                     paint);
         } else if (mBodyType == BodyType.Rectangular) {
             canvas.drawRect(mBoundingRect, paint);
         }
 //        //Testeo colisiones
+//        matrix.reset();
+//        matrix.postScale((float) pixelFactor, (float) pixelFactor);
+//        matrix.postTranslate((float) positionX, (float) positionY);
+//        matrix.postRotate((float) rotation, (float) (positionX + width / 2), (float) (positionY + height / 2));
+//        canvas.drawBitmap(bitmap, matrix, null);
+        //Implementación de lo mismo de arriba con escala y alpha
+        float scaleFactor = (float) (pixelFactor * scale);
         matrix.reset();
-        matrix.postScale((float) pixelFactor, (float) pixelFactor);
+        matrix.postScale(scaleFactor, scaleFactor);
         matrix.postTranslate((float) positionX, (float) positionY);
-        matrix.postRotate((float) rotation, (float) (positionX + width / 2), (float) (positionY + height / 2));
-        canvas.drawBitmap(bitmap, matrix, null);
+        matrix.postRotate((float) rotation,
+                (float) (positionX + width  / 2),
+                (float) (positionY + height  / 2));
+        paint.setAlpha(alpha);
+        canvas.drawBitmap(bitmap, matrix, paint);
     }
 }
