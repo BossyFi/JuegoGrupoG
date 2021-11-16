@@ -3,7 +3,9 @@ package dadm.scaffold.engine;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
@@ -17,32 +19,54 @@ public abstract class Sprite extends ScreenGameObject {
 
     private final Matrix matrix = new Matrix();
 
-    protected Sprite (GameEngine gameEngine, int drawableRes) {
+    private Paint paint;
+
+    protected Sprite(GameEngine gameEngine, int drawableRes) {
         Resources r = gameEngine.getContext().getResources();
         Drawable spriteDrawable = r.getDrawable(drawableRes);
-
+        paint = new Paint();
         this.pixelFactor = gameEngine.pixelFactor;
 
-        this.width = (int) (spriteDrawable.getIntrinsicHeight() * this.pixelFactor);
-        this.height = (int) (spriteDrawable.getIntrinsicWidth() * this.pixelFactor);
+        this.width = (int) (spriteDrawable.getIntrinsicWidth() * this.pixelFactor);
+        this.height = (int) (spriteDrawable.getIntrinsicHeight() * this.pixelFactor);
 
         this.bitmap = ((BitmapDrawable) spriteDrawable).getBitmap();
 
-        radius = Math.max(height, width)/2;
+        radius = Math.max(height, width) / 2;
     }
 
     @Override
     public void onDraw(Canvas canvas) {
         if (positionX > canvas.getWidth()
                 || positionY > canvas.getHeight()
-                || positionX < - width
-                || positionY < - height) {
+                || positionX < -width
+                || positionY < -height) {
             return;
         }
+        //Testeo colisiones
+//        paint.setColor(Color.YELLOW);
+//        //Bounding Box Rectangular
+////        canvas.drawRect(mBoundingRect, paint);
+//        canvas.drawCircle(
+//                (int) (positionX + width / 2),
+//                (int) (positionY + height / 2),
+//                (int) radius,
+//                paint);
+        paint.setColor(Color.YELLOW);
+        if (mBodyType == BodyType.Circular) {
+            canvas.drawCircle(
+                    (int) (positionX + width / 2),
+                    (int) (positionY + height / 2),
+                    (int) radius,
+                    paint);
+        } else if (mBodyType == BodyType.Rectangular) {
+            canvas.drawRect(mBoundingRect, paint);
+        }
+//        //Testeo colisiones
         matrix.reset();
         matrix.postScale((float) pixelFactor, (float) pixelFactor);
         matrix.postTranslate((float) positionX, (float) positionY);
-        matrix.postRotate((float) rotation, (float) (positionX + width/2), (float) (positionY + height/2));
+        matrix.postRotate((float) rotation, (float) (positionX + width / 2), (float) (positionY + height / 2));
         canvas.drawBitmap(bitmap, matrix, null);
     }
 }

@@ -11,14 +11,15 @@ public class Bullet extends Sprite {
 
     private SpaceShipPlayer parent;
 
-    public Bullet(GameEngine gameEngine){
+    public Bullet(GameEngine gameEngine) {
         super(gameEngine, R.drawable.bullet);
-
+        mBodyType = BodyType.Rectangular;
         speedFactor = gameEngine.pixelFactor * -300d / 1000d;
     }
 
     @Override
-    public void startGame() {}
+    public void startGame() {
+    }
 
     @Override
     public void onUpdate(long elapsedMillis, GameEngine gameEngine) {
@@ -32,8 +33,8 @@ public class Bullet extends Sprite {
 
 
     public void init(SpaceShipPlayer parentPlayer, double initPositionX, double initPositionY) {
-        positionX = initPositionX - width/2;
-        positionY = initPositionY - height/2;
+        positionX = initPositionX - width / 2;
+        positionY = initPositionY - height / 2;
         parent = parentPlayer;
     }
 

@@ -1,4 +1,4 @@
-package dadm.scaffold.engine;
+package dadm.scaffold.space;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -6,6 +6,9 @@ import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+
+import dadm.scaffold.engine.GameEngine;
+import dadm.scaffold.engine.ScreenGameObject;
 
 public class ParallaxBackground extends ScreenGameObject {
     private final Bitmap bitmap;
@@ -32,6 +35,7 @@ public class ParallaxBackground extends ScreenGameObject {
         screenHeight = gameEngine.height;
         screenWidth = gameEngine.width;
         targetWidth = (int) Math.min(imageWidth, screenWidth);
+        mBodyType = BodyType.None;
     }
 
     @Override

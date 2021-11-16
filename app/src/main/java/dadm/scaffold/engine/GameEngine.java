@@ -137,6 +137,7 @@ public class GameEngine {
      * de la escena hasta que se eliminen de la escena los objetos que teníamos en la lista
      * auxiliar o se añaden a la escena los objetos que teníamos en la otra lista auxiliar.
      * En resumen, no volver a actualizar los gameObjects hasta que se vacíen las listas.
+     *
      * @param elapsedMillis el tiempo en milisegundos desde la última llamada al método.
      */
     public void onUpdate(long elapsedMillis) {
@@ -192,8 +193,8 @@ public class GameEngine {
         gameObjects.add(object);
         if (object instanceof ScreenGameObject) {
             ScreenGameObject sgo = (ScreenGameObject) object;
-
-            quadTree.addGameObject(sgo);
+            if (sgo.mBodyType != ScreenGameObject.BodyType.None)
+                quadTree.addGameObject(sgo);
         }
     }
 }
