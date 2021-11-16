@@ -68,4 +68,10 @@ public class MainMenuFragment extends BaseFragment implements View.OnClickListen
             btnSounds.setText(R.string.sound_off);
         }
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateSoundAndMusicButtons();
+    }
 }
