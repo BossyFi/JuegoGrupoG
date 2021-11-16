@@ -9,4 +9,9 @@
     <string name="pause_dialog_message">pause message</string>
     <string name="resume">resume</string>
     <string name="stop">stop</string>
+    <string name="sound_on">sound on</string>
+    <string name="sound_off">sound off</string>
+    <string name="music_on">music on</string>
+    <string name="music_off">music off</string>
+
 </resources>

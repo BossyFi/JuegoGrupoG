@@ -7,15 +7,20 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Build;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.HashMap;
 
-public final class SoundManager {
+import dadm.scaffold.database.Preferences;
 
+public final class SoundManager {
+    public String SOUNDS_PREF_KEY = "Sound";
+    public String MUSIC_PREF_KEY = "Music";
     private static final int MAX_STREAMS = 10;
     private static final float DEFAULT_MUSIC_VOLUME = 0.6f;
-
+    private boolean soundEnabled;
+    private boolean musicEnabled;
     private HashMap<GameEvent, Integer> soundsMap;
 
     private Context context;
@@ -24,8 +29,9 @@ public final class SoundManager {
 
     public SoundManager(Context context) {
         this.context = context;
-        loadSounds();
-        loadMusic();
+        soundEnabled = Preferences.GetBooleanValue(this.context, SOUNDS_PREF_KEY);
+        musicEnabled = Preferences.GetBooleanValue(this.context, MUSIC_PREF_KEY);
+        loadIfNeeded();
     }
 
     private void loadEventSound(Context context, GameEvent event, String... filename) {
@@ -39,6 +45,8 @@ public final class SoundManager {
     }
 
     public void playSoundForGameEvent(GameEvent event) {
+        if (!soundEnabled) return;
+
         Integer soundId = soundsMap.get(event);
         if (soundId != null) {
             // Left Volume, Right Volume, priority (0 == lowest), loop (0 == no) and rate (1.0 normal playback rate)
@@ -97,10 +105,54 @@ public final class SoundManager {
     }
 
     public void pauseBgMusic() {
-        bgPlayer.pause();
+        if (musicEnabled) {
+            bgPlayer.pause();
+        }
     }
 
     public void resumeBgMusic() {
-        bgPlayer.start();
+        if (musicEnabled) {
+            bgPlayer.start();
+        }
+    }
+
+    public boolean getSoundStatus() {
+        return soundEnabled;
+    }
+
+    public boolean getMusicStatus() {
+        return musicEnabled;
+    }
+
+    private void loadIfNeeded() {
+        if (soundEnabled) {
+            loadSounds();
+        }
+        if (musicEnabled) {
+            loadMusic();
+        }
+    }
+
+    public void toggleSoundStatus() {
+        soundEnabled = !soundEnabled;
+        if (soundEnabled) {
+            loadSounds();
+        } else {
+            unloadSounds();
+        }
+        // Save it to preferences
+        Preferences.SetBooleanValue(this.context, SOUNDS_PREF_KEY, soundEnabled);
+    }
+
+    public void toggleMusicStatus() {
+        musicEnabled = !musicEnabled;
+        if (musicEnabled) {
+            loadMusic();
+            resumeBgMusic();
+        } else {
+            unloadMusic();
+        }
+        // Save it to preferences
+        Preferences.SetBooleanValue(this.context, MUSIC_PREF_KEY, musicEnabled);
     }
 }
