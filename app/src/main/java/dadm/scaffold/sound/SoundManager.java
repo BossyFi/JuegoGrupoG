@@ -95,4 +95,12 @@ public final class SoundManager {
         bgPlayer.stop();
         bgPlayer.release();
     }
+
+    public void pauseBgMusic() {
+        bgPlayer.pause();
+    }
+
+    public void resumeBgMusic() {
+        bgPlayer.start();
+    }
 }

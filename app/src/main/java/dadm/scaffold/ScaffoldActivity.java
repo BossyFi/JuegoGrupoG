@@ -15,6 +15,7 @@ public class ScaffoldActivity extends AppCompatActivity {
     private static final String TAG_FRAGMENT = "content";
 
     private SoundManager soundManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,5 +78,17 @@ public class ScaffoldActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
             }
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        soundManager.pauseBgMusic();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        soundManager.resumeBgMusic();
     }
 }
