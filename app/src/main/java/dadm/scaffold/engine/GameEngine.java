@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Random;
 
 import dadm.scaffold.input.InputController;
+import dadm.scaffold.sound.GameEvent;
+import dadm.scaffold.sound.SoundManager;
 
 public class GameEngine {
 
@@ -33,6 +35,8 @@ public class GameEngine {
     private final GameView theGameView;
 
     public Random random = new Random();
+
+    private SoundManager soundManager;
 
     public int width;
     public int height;
@@ -196,5 +200,15 @@ public class GameEngine {
             if (sgo.mBodyType != ScreenGameObject.BodyType.None)
                 quadTree.addGameObject(sgo);
         }
+    }
+
+    public void setSoundManager(SoundManager soundManager) {
+        this.soundManager = soundManager;
+    }
+
+    public void onGameEvent(GameEvent gameEvent) {
+        // We notify all the GameObjects
+        // Also the sound manager
+        soundManager.playSoundForGameEvent(gameEvent);
     }
 }

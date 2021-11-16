@@ -1,5 +1,6 @@
 package dadm.scaffold;
 
+import android.media.AudioManager;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,11 +8,13 @@ import android.view.View;
 
 import dadm.scaffold.counter.GameFragment;
 import dadm.scaffold.counter.MainMenuFragment;
+import dadm.scaffold.sound.SoundManager;
 
 public class ScaffoldActivity extends AppCompatActivity {
 
     private static final String TAG_FRAGMENT = "content";
 
+    private SoundManager soundManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,11 +24,17 @@ public class ScaffoldActivity extends AppCompatActivity {
                     .add(R.id.container, new MainMenuFragment(), TAG_FRAGMENT)
                     .commit();
         }
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
+        soundManager = new SoundManager(getApplicationContext());
+    }
+
+    public SoundManager getSoundManager() {
+        return soundManager;
     }
 
     public void startGame() {
         // Navigate the the game fragment, which makes the start automatically
-        navigateToFragment( new GameFragment());
+        navigateToFragment(new GameFragment());
     }
 
     private void navigateToFragment(BaseFragment dst) {
@@ -59,8 +68,7 @@ public class ScaffoldActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_LOW_PROFILE);
-            }
-            else {
+            } else {
                 decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_FULLSCREEN

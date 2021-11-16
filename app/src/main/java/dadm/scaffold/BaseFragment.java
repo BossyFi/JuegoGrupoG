@@ -7,4 +7,8 @@ public class BaseFragment extends Fragment {
     public boolean onBackPressed() {
         return false;
     }
+
+    protected ScaffoldActivity getScaffoldActivity() {
+        return (ScaffoldActivity) getActivity();
+    }
 }

@@ -4,6 +4,7 @@ import dadm.scaffold.R;
 import dadm.scaffold.engine.GameEngine;
 import dadm.scaffold.engine.ScreenGameObject;
 import dadm.scaffold.engine.Sprite;
+import dadm.scaffold.sound.GameEvent;
 
 public class Bullet extends Sprite {
 
@@ -51,6 +52,7 @@ public class Bullet extends Sprite {
             removeObject(gameEngine);
             Asteroid a = (Asteroid) otherObject;
             a.removeObject(gameEngine);
+            gameEngine.onGameEvent(GameEvent.AsteroidHit);
             // Add some score
         }
     }

@@ -8,6 +8,7 @@ import dadm.scaffold.engine.GameEngine;
 import dadm.scaffold.engine.ScreenGameObject;
 import dadm.scaffold.engine.Sprite;
 import dadm.scaffold.input.InputController;
+import dadm.scaffold.sound.GameEvent;
 
 public class SpaceShipPlayer extends Sprite {
 
@@ -88,6 +89,7 @@ public class SpaceShipPlayer extends Sprite {
             bullet.init(this, positionX + width / 2, positionY);
             gameEngine.addGameObject(bullet);
             timeSinceLastFire = 0;
+            gameEngine.onGameEvent(GameEvent.LaserFired);
         } else {
             timeSinceLastFire += elapsedMillis;
         }
@@ -100,6 +102,7 @@ public class SpaceShipPlayer extends Sprite {
             //gameEngine.stopGame();
             Asteroid a = (Asteroid) otherObject;
             a.removeObject(gameEngine);
+            gameEngine.onGameEvent(GameEvent.SpaceshipHit);
         }
     }
 }
