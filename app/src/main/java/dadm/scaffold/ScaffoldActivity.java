@@ -1,10 +1,13 @@
 package dadm.scaffold;
 
+import android.graphics.Typeface;
 import android.media.AudioManager;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import dadm.scaffold.counter.GameFragment;
 import dadm.scaffold.counter.MainMenuFragment;
@@ -15,6 +18,8 @@ public class ScaffoldActivity extends AppCompatActivity {
     private static final String TAG_FRAGMENT = "content";
 
     private SoundManager soundManager;
+
+    private Typeface customTypeFace;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +32,7 @@ public class ScaffoldActivity extends AppCompatActivity {
         }
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
         soundManager = new SoundManager(getApplicationContext());
+        customTypeFace = Typeface.createFromAsset(getAssets(), "ttf/Adore64.ttf");
     }
 
     public SoundManager getSoundManager() {
@@ -90,5 +96,18 @@ public class ScaffoldActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         soundManager.resumeBgMusic();
+    }
+
+    public void applyTypeface(View view) {
+        if (view instanceof ViewGroup) {
+            // Aplicamos de forma recursiva a todos los hijos
+            ViewGroup viewGroup = (ViewGroup) view;
+            for (int i = 0; i < viewGroup.getChildCount(); i++) {
+                applyTypeface(viewGroup.getChildAt(i));
+            }
+        } else if (view instanceof TextView) {
+            TextView tv = (TextView) view;
+            tv.setTypeface(customTypeFace);
+        }
     }
 }
