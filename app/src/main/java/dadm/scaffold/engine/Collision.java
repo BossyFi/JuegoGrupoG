@@ -14,10 +14,15 @@ public class Collision {
         if (collisionPool.isEmpty()) {
             return new Collision(objectA, objectB);
         }
-        return collisionPool.remove(0);
+        Collision c = collisionPool.remove(0);
+        c.objectA = objectA;
+        c.objectB = objectB;
+        return c;
     }
 
     public static void release(Collision c) {
+        c.objectA = null;
+        c.objectB = null;
         collisionPool.add(c);
     }
 
@@ -26,7 +31,7 @@ public class Collision {
         this.objectB = objectB;
     }
 
-    public boolean equals (Collision c) {
+    public boolean equals(Collision c) {
         return (objectA == c.objectA && objectB == c.objectB)
                 || (objectA == c.objectB && objectB == c.objectA);
     }
