@@ -1,12 +1,17 @@
 package dadm.scaffold.counter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import dadm.scaffold.BaseFragment;
@@ -16,6 +21,9 @@ import dadm.scaffold.sound.SoundManager;
 
 
 public class MainMenuFragment extends BaseFragment implements View.OnClickListener {
+    private boolean musicPressed;
+    private boolean soundPressed;
+
     public MainMenuFragment() {
     }
 
@@ -26,6 +34,7 @@ public class MainMenuFragment extends BaseFragment implements View.OnClickListen
         return rootView;
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -53,19 +62,23 @@ public class MainMenuFragment extends BaseFragment implements View.OnClickListen
 
     private void updateSoundAndMusicButtons() {
         SoundManager soundManager = getScaffoldActivity().getSoundManager();
-        TextView btnMusic = (TextView)
-                getView().findViewById(R.id.btn_music);
+
+        ImageView btnMusic = (ImageView) getView().findViewById(R.id.btn_music);
         if (soundManager.getMusicStatus()) {
-            btnMusic.setText(R.string.music_on);
+            btnMusic.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.button_pressed));
+            btnMusic.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.volume_on_nobg));
         } else {
-            btnMusic.setText(R.string.music_off);
+            btnMusic.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.button_normal));
+            btnMusic.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.volume_off_nobg));
         }
-        TextView btnSounds = (TextView)
+        ImageView btnSounds = (ImageView)
                 getView().findViewById(R.id.btn_sound);
         if (soundManager.getSoundStatus()) {
-            btnSounds.setText(R.string.sound_on);
+            btnSounds.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.button_pressed));
+            btnSounds.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.sound_on_nobg));
         } else {
-            btnSounds.setText(R.string.sound_off);
+            btnSounds.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.button_normal));
+            btnSounds.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.sound_off_nobg));
         }
     }
 
@@ -74,4 +87,5 @@ public class MainMenuFragment extends BaseFragment implements View.OnClickListen
         super.onResume();
         updateSoundAndMusicButtons();
     }
+
 }
