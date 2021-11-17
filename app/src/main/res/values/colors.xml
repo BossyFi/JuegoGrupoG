@@ -8,4 +8,6 @@
     <color name="btn_pressed">#fdd33f</color>
     <color name="text_color">#FFFFFF</color>
     <color name="btn_border">#AAAAAA</color>
+    <color name="background">#000000</color>
+    <color name="game_view_frame">#F44336</color>
 </resources>
