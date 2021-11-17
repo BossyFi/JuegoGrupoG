@@ -29,15 +29,24 @@
 
     <include layout="@layout/view_joystick" />
 
-    <Button
-        android:id="@+id/btn_play_pause"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <!--    <Button-->
+    <!--        android:id="@+id/btn_play_pause"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_gravity="top|end"-->
+    <!--        android:layout_marginTop="@dimen/activity_vertical_margin"-->
+    <!--        android:layout_marginEnd="@dimen/activity_vertical_margin"-->
+    <!--        android:layout_marginRight="@dimen/activity_vertical_margin"-->
+    <!--        android:text="@string/pause" />-->
+
+    <ImageView
+        android:id="@+id/btn_pause"
+        android:layout_width="@dimen/btn_round_size"
+        android:layout_height="@dimen/btn_round_size"
         android:layout_gravity="top|end"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:layout_marginEnd="@dimen/activity_vertical_margin"
-        android:layout_marginRight="@dimen/activity_vertical_margin"
-        android:text="@string/pause" />
+        android:layout_marginTop="@dimen/activity_less_vertical_margin"
+        android:background="@drawable/button_normal"
+        android:src="@drawable/pause_png_nobg" />
 
 
 </FrameLayout>

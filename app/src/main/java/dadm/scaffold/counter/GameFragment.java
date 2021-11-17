@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import dadm.scaffold.BaseFragment;
 import dadm.scaffold.R;
@@ -37,7 +38,7 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        view.findViewById(R.id.btn_play_pause).setOnClickListener(this);
+        view.findViewById(R.id.btn_pause).setOnClickListener(this);
         final ViewTreeObserver observer = view.getViewTreeObserver();
         observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -62,7 +63,7 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.btn_play_pause) {
+        if (v.getId() == R.id.btn_pause) {
             pauseGameAndShowPauseDialog();
         }
     }
@@ -122,13 +123,13 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
     }
 
     private void playOrPause() {
-        Button button = (Button) getView().findViewById(R.id.btn_play_pause);
+        ImageView button = (ImageView) getView().findViewById(R.id.btn_pause);
         if (theGameEngine.isPaused()) {
             theGameEngine.resumeGame();
-            button.setText(R.string.pause);
+//            button.setText(R.string.pause);
         } else {
             theGameEngine.pauseGame();
-            button.setText(R.string.resume);
+//            button.setText(R.string.resume);
         }
     }
 }
