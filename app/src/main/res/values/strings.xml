@@ -14,5 +14,6 @@
     <string name="music_on">music on</string>
     <string name="music_off">music off</string>
     <string name="score">Score</string>
+    <string name="lives">Lifes</string>
 
 </resources>

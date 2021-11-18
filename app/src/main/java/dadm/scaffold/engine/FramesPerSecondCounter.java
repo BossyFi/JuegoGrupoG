@@ -30,6 +30,11 @@ public class FramesPerSecondCounter extends GameObject {
     }
 
     @Override
+    public void startGame(GameEngine gameEngine) {
+
+    }
+
+    @Override
     public void onUpdate(long elapsedMillis, GameEngine gameEngine) {
         totalMillis += elapsedMillis;
         if (totalMillis > 1000) {

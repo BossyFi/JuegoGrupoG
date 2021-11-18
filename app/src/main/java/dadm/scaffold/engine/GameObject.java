@@ -12,6 +12,11 @@ public abstract class GameObject {
     public abstract void startGame();
 
     /**
+     * StartGame con gameEngine
+     */
+    public abstract void startGame(GameEngine gameEngine);
+
+    /**
      * Es llamado por el GameEngine lo más rápido posible
      *
      * @param elapsedMillis los milisegundos desde la última llamada

@@ -11,6 +11,7 @@ import java.util.Random;
 import dadm.scaffold.input.InputController;
 import dadm.scaffold.sound.GameEvent;
 import dadm.scaffold.sound.SoundManager;
+import dadm.scaffold.space.GameController;
 
 public class GameEngine {
 
@@ -74,6 +75,8 @@ public class GameEngine {
         int nugameObjects = gameObjects.size();
         for (int i = 0; i < nugameObjects; i++) {
             gameObjects.get(i).startGame();
+            if (gameObjects.get(i) instanceof GameController)
+                gameObjects.get(i).startGame(this);
         }
 
         // Comenzamos el Update Thread

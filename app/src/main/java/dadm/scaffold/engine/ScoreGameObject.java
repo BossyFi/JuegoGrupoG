@@ -29,6 +29,11 @@ public class ScoreGameObject extends GameObject {
     }
 
     @Override
+    public void startGame(GameEngine gameEngine) {
+
+    }
+
+    @Override
     public void onGameEvent(GameEvent gameEvent) {
         if (gameEvent == GameEvent.AsteroidHit) {
             mPoints += POINTS_GAINED_PER_ASTEROID_HIT;

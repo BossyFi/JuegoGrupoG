@@ -28,6 +28,8 @@ public class SpaceShipPlayer extends Sprite {
         maxX = gameEngine.width - width;
         maxY = gameEngine.height - height;
         mBodyType = BodyType.Circular;
+        positionX = maxX / 2;
+        positionY = maxY / 2;
         initBulletPool(gameEngine);
     }
 
@@ -51,6 +53,12 @@ public class SpaceShipPlayer extends Sprite {
 
     @Override
     public void startGame() {
+        positionX = maxX / 2;
+        positionY = maxY / 2;
+    }
+
+    @Override
+    public void startGame(GameEngine gameEngine) {
         positionX = maxX / 2;
         positionY = maxY / 2;
     }

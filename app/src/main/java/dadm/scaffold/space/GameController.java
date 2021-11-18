@@ -7,6 +7,7 @@ import java.util.List;
 
 import dadm.scaffold.engine.GameEngine;
 import dadm.scaffold.engine.GameObject;
+import dadm.scaffold.sound.GameEvent;
 
 public class GameController extends GameObject {
 
@@ -14,10 +15,25 @@ public class GameController extends GameObject {
     private long currentMillis;
     private List<Asteroid> asteroidPool = new ArrayList<Asteroid>();
     private int enemiesSpawned;
+    private GameControllerState state;
+    private long waitingTime;
+    private int INITIAL_LIFES = 3;
+    private int numLives = 0;
+    private long STOPPING_WAVE_WAITING_TIME = 2000;
+    private long WAITING_TIME = 500;
+
+
+    public enum GameControllerState {
+        StoppingWave,
+        SpawningEnemies,
+        PlacingSpaceship,
+        Waiting,
+        GameOver;
+    }
 
     public GameController(GameEngine gameEngine) {
         // We initialize the pool of items now
-        for (int i=0; i<10; i++) {
+        for (int i = 0; i < 10; i++) {
             asteroidPool.add(new Asteroid(this, gameEngine));
         }
     }
@@ -29,17 +45,52 @@ public class GameController extends GameObject {
     }
 
     @Override
-    public void onUpdate(long elapsedMillis, GameEngine gameEngine) {
-        currentMillis += elapsedMillis;
+    public void startGame(GameEngine gameEngine) {
+        currentMillis = 0;
+        enemiesSpawned = 0;
+        waitingTime = 0;
+        for (int i = 0; i < INITIAL_LIFES; i++) {
+            gameEngine.onGameEvent(GameEvent.LifeAdded);
+        }
+        state = GameControllerState.PlacingSpaceship;
+    }
 
-        long waveTimestamp = enemiesSpawned*TIME_BETWEEN_ENEMIES;
-        if (currentMillis > waveTimestamp) {
-            // Spawn a new enemy
-            Asteroid a = asteroidPool.remove(0);
-            a.init(gameEngine);
-            gameEngine.addGameObject(a);
-            enemiesSpawned++;
-            return;
+    @Override
+    public void onUpdate(long elapsedMillis, GameEngine gameEngine) {
+        if (state == GameControllerState.SpawningEnemies) {
+            currentMillis += elapsedMillis;
+            long waveTimestamp = enemiesSpawned * TIME_BETWEEN_ENEMIES;
+            if (currentMillis > waveTimestamp) {
+                // Spawn a new enemy
+                Asteroid a = asteroidPool.remove(0);
+                a.init(gameEngine);
+                gameEngine.addGameObject(a);
+                enemiesSpawned++;
+                return;
+            }
+        } else if (state == GameControllerState.StoppingWave) {
+            waitingTime += elapsedMillis;
+            if (waitingTime > STOPPING_WAVE_WAITING_TIME) {
+                state = GameControllerState.PlacingSpaceship;
+            }
+        } else if (state == GameControllerState.PlacingSpaceship) {
+            if (numLives == 0) {
+                gameEngine.onGameEvent(GameEvent.GameOver);
+            } else {
+                numLives--;
+                gameEngine.onGameEvent(GameEvent.LifeLost);
+                SpaceShipPlayer newLife = new SpaceShipPlayer(gameEngine);
+                gameEngine.addGameObject(new SpaceShipPlayer(gameEngine));
+                newLife.startGame(gameEngine);
+                // We wait to start spawning more enemies
+                state = GameControllerState.Waiting;
+                waitingTime = 0;
+            }
+        } else if (state == GameControllerState.Waiting) {
+            waitingTime += elapsedMillis;
+            if (waitingTime > WAITING_TIME) {
+                state = GameControllerState.SpawningEnemies;
+            }
         }
     }
 
@@ -50,5 +101,17 @@ public class GameController extends GameObject {
 
     public void returnToPool(Asteroid asteroid) {
         asteroidPool.add(asteroid);
+    }
+
+    @Override
+    public void onGameEvent(GameEvent gameEvent) {
+        if (gameEvent == GameEvent.SpaceshipHit) {
+            state = GameControllerState.StoppingWave;
+            waitingTime = 0;
+        } else if (gameEvent == GameEvent.GameOver) {
+            state = GameControllerState.GameOver;
+        } else if (gameEvent == GameEvent.LifeAdded) {
+            numLives++;
+        }
     }
 }

@@ -33,6 +33,25 @@
             android:text="000000"
             android:textColor="@color/text_color" />
 
+        <TextView
+            android:id="@+id/lives_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/score_value"
+            android:layout_alignLeft="@+id/score_value"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="@string/lives"
+            android:textColor="@color/text_color" />
+
+        <LinearLayout
+            android:id="@+id/lives_value"
+            android:layout_width="@dimen/game_menu_width"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lives_title"
+            android:layout_alignLeft="@+id/lives_title"
+            android:layout_marginTop="@dimen/menu_margin"
+            android:orientation="horizontal"
+            android:layout_alignStart="@+id/lives_title" />
     </RelativeLayout>
 
     <FrameLayout

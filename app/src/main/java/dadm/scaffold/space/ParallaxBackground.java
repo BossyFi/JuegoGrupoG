@@ -44,6 +44,11 @@ public class ParallaxBackground extends ScreenGameObject {
     }
 
     @Override
+    public void startGame(GameEngine gameEngine) {
+
+    }
+
+    @Override
     public void onUpdate(long elapsedMillis, GameEngine gameEngine) {
         positionY += speedY * elapsedMillis;
     }

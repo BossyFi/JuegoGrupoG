@@ -39,6 +39,11 @@ public class Asteroid extends Sprite {
     public void startGame() {
     }
 
+    @Override
+    public void startGame(GameEngine gameEngine) {
+
+    }
+
     public void removeObject(GameEngine gameEngine) {
         // Return to the pool
         gameEngine.removeGameObject(this);

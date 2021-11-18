@@ -23,6 +23,11 @@ public class Bullet extends Sprite {
     }
 
     @Override
+    public void startGame(GameEngine gameEngine) {
+
+    }
+
+    @Override
     public void onUpdate(long elapsedMillis, GameEngine gameEngine) {
         positionY += speedFactor * elapsedMillis;
         if (positionY < -height) {
