@@ -17,7 +17,7 @@ public class GameController extends GameObject {
     private int enemiesSpawned;
     private GameControllerState state;
     private long waitingTime;
-    private int INITIAL_LIFES = 3;
+    private int INITIAL_LIFES = 4;
     private int numLives = 0;
     private long STOPPING_WAVE_WAITING_TIME = 2000;
     private long WAITING_TIME = 500;
@@ -77,7 +77,6 @@ public class GameController extends GameObject {
             if (numLives == 0) {
                 gameEngine.onGameEvent(GameEvent.GameOver);
             } else {
-                numLives--;
                 gameEngine.onGameEvent(GameEvent.LifeLost);
                 SpaceShipPlayer newLife = new SpaceShipPlayer(gameEngine);
                 gameEngine.addGameObject(new SpaceShipPlayer(gameEngine));
@@ -112,6 +111,8 @@ public class GameController extends GameObject {
             state = GameControllerState.GameOver;
         } else if (gameEvent == GameEvent.LifeAdded) {
             numLives++;
+        } else if (gameEvent == GameEvent.LifeLost) {
+            numLives--;
         }
     }
 }
