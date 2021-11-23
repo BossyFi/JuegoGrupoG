@@ -20,7 +20,7 @@ import dadm.scaffold.ScaffoldActivity;
 import dadm.scaffold.sound.SoundManager;
 
 
-public class MainMenuFragment extends BaseFragment implements View.OnClickListener {
+public class MainMenuFragment extends BaseFragment implements View.OnClickListener, QuitDialog.QuitDialogListener {
     private boolean musicPressed;
     private boolean soundPressed;
 
@@ -88,4 +88,19 @@ public class MainMenuFragment extends BaseFragment implements View.OnClickListen
         updateSoundAndMusicButtons();
     }
 
+    @Override
+    public boolean onBackPressed() {
+        boolean consumed = super.onBackPressed();
+        if (!consumed) {
+            QuitDialog quitDialog = new QuitDialog(getScaffoldActivity());
+            quitDialog.setListener(this);
+            showDialog(quitDialog);
+        }
+        return true;
+    }
+
+    @Override
+    public void exit() {
+        getScaffoldActivity().finish();
+    }
 }

@@ -15,5 +15,6 @@
     <string name="music_off">music off</string>
     <string name="score">Score</string>
     <string name="lives">Lifes</string>
+    <string name="exit_confirm">Exit Game?</string>
 
 </resources>

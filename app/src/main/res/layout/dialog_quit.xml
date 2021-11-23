@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dialog_width"
+    android:layout_height="@dimen/dialog_height"
+    android:layout_gravity="center"
+    android:background="@drawable/dialog_bg">
+
+    <TextView
+        style="@android:style/TextAppearance.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:text="@string/exit_confirm"
+        android:textColor="@color/text_color" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/activity_vertical_margin">
+
+        <ImageView
+            android:id="@+id/btn_resume"
+            style="@style/iconButton"
+            android:layout_marginEnd="@dimen/btn_round_size"
+            android:layout_marginRight="@dimen/btn_round_size"
+            android:src="@drawable/x" />
+
+        <ImageView
+            android:id="@+id/btn_exit"
+            style="@style/iconButton"
+            android:src="@drawable/check" />
+    </LinearLayout>
+</RelativeLayout>
