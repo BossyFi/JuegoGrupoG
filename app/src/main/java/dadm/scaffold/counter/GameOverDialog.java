@@ -1,6 +1,9 @@
 package dadm.scaffold.counter;
 
 import android.view.View;
+import android.widget.TextView;
+
+import java.util.Locale;
 
 import dadm.scaffold.R;
 import dadm.scaffold.ScaffoldActivity;
@@ -41,5 +44,11 @@ public class GameOverDialog extends BaseCustomDialog implements View.OnClickList
     public void dismiss() {
         super.dismiss();
         listener.startNewGame();
+    }
+
+    public void setGameOverPoints(int points) {
+        TextView scorePoints = (TextView) findViewById(R.id.final_score_value);
+        String text = String.format(Locale.ENGLISH, "%05d", points);
+        scorePoints.setText(text);
     }
 }

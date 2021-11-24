@@ -4,6 +4,8 @@ import android.graphics.Canvas;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.Locale;
+
 import dadm.scaffold.sound.GameEvent;
 
 public class ScoreGameObject extends GameObject {
@@ -49,7 +51,7 @@ public class ScoreGameObject extends GameObject {
     private Runnable mUpdateTextRunnable = new Runnable() {
         @Override
         public void run() {
-            String text = String.format("%06d", mPoints);
+            String text = String.format(Locale.ENGLISH, "%05d", mPoints);
             mText.setText(text);
         }
     };
@@ -60,5 +62,9 @@ public class ScoreGameObject extends GameObject {
             mText.post(mUpdateTextRunnable);
             mPointsHaveChanged = false;
         }
+    }
+
+    public int GetFinalPoints() {
+        return mPoints;
     }
 }

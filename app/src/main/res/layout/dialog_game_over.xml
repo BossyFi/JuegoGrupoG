@@ -15,12 +15,38 @@
         android:textColor="@color/text_color" />
 
     <TextView
+        android:id="@+id/text_play_again"
         style="@android:style/TextAppearance.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/activity_vertical_marginx2"
+        android:layout_marginTop="@dimen/activity_vertical_marginx3"
         android:text="@string/play_again"
+        android:textColor="@color/text_color" />
+
+    <TextView
+        android:id="@+id/final_score"
+        style="@android:style/TextAppearance.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@id/text_play_again"
+        android:layout_alignLeft="@id/text_play_again"
+        android:layout_centerHorizontal="false"
+        android:layout_marginTop="@dimen/activity_vertical_marginx5"
+        android:text="@string/final_score"
+        android:textColor="@color/text_color" />
+
+    <TextView
+        android:id="@+id/final_score_value"
+        style="@android:style/TextAppearance.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/final_score"
+        android:layout_toEndOf="@id/final_score"
+        android:layout_toRightOf="@id/final_score"
+        android:paddingStart="5dp"
+        android:paddingLeft="5dp"
+        android:text="0000"
         android:textColor="@color/text_color" />
 
     <LinearLayout
@@ -28,7 +54,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/activity_vertical_margin">
+        android:layout_marginBottom="@dimen/activity_vertical_marginx0.5">
 
         <ImageView
             android:id="@+id/exit_game"

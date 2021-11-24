@@ -23,7 +23,7 @@ public class GameController extends GameObject {
     private long waitingTime;
     private int INITIAL_LIFES = 4;
     private int numLives = 0;
-    private long STOPPING_WAVE_WAITING_TIME = 2000;
+    private long STOPPING_WAVE_WAITING_TIME = 1000;
     private long WAITING_TIME = 500;
 
     public enum GameControllerState {
@@ -134,6 +134,7 @@ public class GameController extends GameObject {
             public void run() {
                 GameOverDialog quitDialog = new GameOverDialog((ScaffoldActivity) parent.getActivity());
                 quitDialog.setListener(parent);
+                quitDialog.setGameOverPoints(parent.getFinalScore());
                 parent.showDialog(quitDialog);
             }
         });
