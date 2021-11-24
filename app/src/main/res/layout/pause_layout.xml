@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dialog_width"
+    android:layout_height="@dimen/dialog_height"
+    android:layout_gravity="center"
+    android:background="@drawable/dialog_bg">
+
+    <TextView
+        style="@android:style/TextAppearance.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:text="@string/pause"
+        android:textColor="@color/text_color" />
+
+    <ImageView
+        android:id="@+id/btn_exit"
+        style="@style/iconButton"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/activity_vertical_margin"
+        android:layout_marginLeft="@dimen/activity_vertical_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginEnd="@dimen/activity_vertical_margin"
+        android:layout_marginRight="@dimen/activity_vertical_margin"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:src="@drawable/exit" />
+
+    <ImageView
+        android:id="@+id/btn_resume"
+        style="@style/iconButton"
+        android:layout_alignBottom="@+id/btn_exit"
+        android:layout_toEndOf="@+id/btn_exit"
+        android:layout_toRightOf="@+id/btn_exit"
+        android:src="@drawable/check" />
+
+    <ImageView
+        android:id="@+id/btn_sound"
+        style="@style/iconButton"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        android:src="@drawable/sound_on_nobg" />
+
+    <ImageView
+        android:id="@+id/btn_music"
+        style="@style/iconButton"
+        android:layout_alignBottom="@+id/btn_sound"
+        android:layout_toStartOf="@+id/btn_sound"
+        android:layout_toLeftOf="@+id/btn_sound"
+        android:src="@drawable/volume_on_nobg" />
+</RelativeLayout>

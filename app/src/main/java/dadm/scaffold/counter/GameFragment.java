@@ -25,7 +25,7 @@ import dadm.scaffold.space.GameController;
 import dadm.scaffold.space.SpaceShipPlayer;
 
 
-public class GameFragment extends BaseFragment implements View.OnClickListener {
+public class GameFragment extends BaseFragment implements View.OnClickListener, PauseDialog.PauseDialogListener {
     private GameEngine theGameEngine;
 
     public GameFragment() {
@@ -89,41 +89,21 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     public boolean onBackPressed() {
-        if (theGameEngine.isRunning()) {
+        if (theGameEngine.isRunning() && !theGameEngine.isPaused()) {
             pauseGameAndShowPauseDialog();
             return true;
         }
-        return false;
+        return super.onBackPressed();
     }
 
     private void pauseGameAndShowPauseDialog() {
+        if (theGameEngine.isPaused()) {
+            return;
+        }
         theGameEngine.pauseGame();
-        new AlertDialog.Builder(getActivity())
-                .setTitle(R.string.pause_dialog_title)
-                .setMessage(R.string.pause_dialog_message)
-                .setPositiveButton(R.string.resume, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        theGameEngine.resumeGame();
-                    }
-                })
-                .setNegativeButton(R.string.stop, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        theGameEngine.stopGame();
-                        ((ScaffoldActivity) getActivity()).navigateBack();
-                    }
-                })
-                .setOnCancelListener(new DialogInterface.OnCancelListener() {
-                    @Override
-                    public void onCancel(DialogInterface dialog) {
-                        theGameEngine.resumeGame();
-                    }
-                })
-                .create()
-                .show();
+        PauseDialog dialog = new PauseDialog(getScaffoldActivity());
+        dialog.setListener(this);
+        showDialog(dialog);
 
     }
 
@@ -136,5 +116,16 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
             theGameEngine.pauseGame();
 //            button.setText(R.string.resume);
         }
+    }
+
+    @Override
+    public void exitGame() {
+        theGameEngine.stopGame();
+        getScaffoldActivity().navigateBack();
+    }
+
+    @Override
+    public void resumeGame() {
+        theGameEngine.resumeGame();
     }
 }
