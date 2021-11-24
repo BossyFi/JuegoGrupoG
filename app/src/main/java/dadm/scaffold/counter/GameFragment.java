@@ -1,8 +1,11 @@
 package dadm.scaffold.counter;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.app.AlertDialog;
+import android.hardware.input.InputManager;
 import android.media.Image;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,8 +28,10 @@ import dadm.scaffold.space.GameController;
 import dadm.scaffold.space.SpaceShipPlayer;
 
 
-public class GameFragment extends BaseFragment implements View.OnClickListener, PauseDialog.PauseDialogListener {
+public class GameFragment extends BaseFragment implements View.OnClickListener, PauseDialog.PauseDialogListener, GameOverDialog.GameOverDialogListener, InputManager.InputDeviceListener {
     private GameEngine theGameEngine;
+
+    private GameFragment gameFragment = this;
 
     public GameFragment() {
     }
@@ -58,7 +63,7 @@ public class GameFragment extends BaseFragment implements View.OnClickListener, 
                 //theGameEngine.addGameObject(new SpaceShipPlayer(theGameEngine));
                 theGameEngine.addGameObject(new LivesCounter(getView(), R.id.lives_value));
                 theGameEngine.addGameObject(new FramesPerSecondCounter(theGameEngine));
-                theGameEngine.addGameObject(new GameController(theGameEngine));
+                theGameEngine.addGameObject(new GameController(theGameEngine, gameFragment));
                 theGameEngine.startGame();
             }
         });
@@ -127,5 +132,48 @@ public class GameFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     public void resumeGame() {
         theGameEngine.resumeGame();
+    }
+
+    @Override
+    public void startNewGame() {
+        // Exit the current game
+        theGameEngine.stopGame();
+        // Start a new one
+        prepareAndStartGame();
+    }
+
+    private void prepareAndStartGame() {
+        GameView gameView = (GameView)
+                getView().findViewById(R.id.gameView);
+        theGameEngine = new GameEngine(getActivity(), gameView);
+        theGameEngine.setSoundManager(getScaffoldActivity().getSoundManager());
+        theGameEngine.setTheInputController(new JoystickInputController(getView()));
+        theGameEngine.addGameObject(new ScoreGameObject(getView(), R.id.score_value));
+        theGameEngine.addGameObject(new ParallaxBackground(theGameEngine, 20, R.drawable.seamless_space_0));
+        //theGameEngine.addGameObject(new SpaceShipPlayer(theGameEngine));
+        theGameEngine.addGameObject(new LivesCounter(getView(), R.id.lives_value));
+        theGameEngine.addGameObject(new FramesPerSecondCounter(theGameEngine));
+        theGameEngine.addGameObject(new GameController(theGameEngine, gameFragment));
+        theGameEngine.startGame();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            InputManager inputManager = (InputManager)
+                    getActivity().getSystemService(Context.INPUT_SERVICE);
+            inputManager.registerInputDeviceListener(GameFragment.this,
+                    null);
+        }
+    }
+
+    @Override
+    public void onInputDeviceAdded(int i) {
+    }
+
+    @Override
+    public void onInputDeviceRemoved(int i) {
+
+    }
+
+    @Override
+    public void onInputDeviceChanged(int i) {
+
     }
 }

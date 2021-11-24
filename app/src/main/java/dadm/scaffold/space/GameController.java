@@ -5,6 +5,9 @@ import android.graphics.Canvas;
 import java.util.ArrayList;
 import java.util.List;
 
+import dadm.scaffold.ScaffoldActivity;
+import dadm.scaffold.counter.GameFragment;
+import dadm.scaffold.counter.GameOverDialog;
 import dadm.scaffold.engine.GameEngine;
 import dadm.scaffold.engine.GameObject;
 import dadm.scaffold.sound.GameEvent;
@@ -16,12 +19,12 @@ public class GameController extends GameObject {
     private List<Asteroid> asteroidPool = new ArrayList<Asteroid>();
     private int enemiesSpawned;
     private GameControllerState state;
+    private GameFragment parent;
     private long waitingTime;
     private int INITIAL_LIFES = 4;
     private int numLives = 0;
     private long STOPPING_WAVE_WAITING_TIME = 2000;
     private long WAITING_TIME = 500;
-
 
     public enum GameControllerState {
         StoppingWave,
@@ -32,6 +35,14 @@ public class GameController extends GameObject {
     }
 
     public GameController(GameEngine gameEngine) {
+        // We initialize the pool of items now
+        for (int i = 0; i < 10; i++) {
+            asteroidPool.add(new Asteroid(this, gameEngine));
+        }
+    }
+
+    public GameController(GameEngine gameEngine, GameFragment parent) {
+        this.parent = parent;
         // We initialize the pool of items now
         for (int i = 0; i < 10; i++) {
             asteroidPool.add(new Asteroid(this, gameEngine));
@@ -109,10 +120,22 @@ public class GameController extends GameObject {
             waitingTime = 0;
         } else if (gameEvent == GameEvent.GameOver) {
             state = GameControllerState.GameOver;
+            showGameOverDialog();
         } else if (gameEvent == GameEvent.LifeAdded) {
             numLives++;
         } else if (gameEvent == GameEvent.LifeLost) {
             numLives--;
         }
+    }
+
+    private void showGameOverDialog() {
+        parent.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                GameOverDialog quitDialog = new GameOverDialog((ScaffoldActivity) parent.getActivity());
+                quitDialog.setListener(parent);
+                parent.showDialog(quitDialog);
+            }
+        });
     }
 }

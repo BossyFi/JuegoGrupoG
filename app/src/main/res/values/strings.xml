@@ -16,5 +16,7 @@
     <string name="score">Score</string>
     <string name="lives">Lifes</string>
     <string name="exit_confirm">Exit Game?</string>
+    <string name="game_over">Game Over</string>
+    <string name="play_again">Play Again?</string>
 
 </resources>
