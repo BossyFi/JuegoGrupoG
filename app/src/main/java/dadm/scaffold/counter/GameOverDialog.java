@@ -36,14 +36,15 @@ public class GameOverDialog extends BaseCustomDialog implements View.OnClickList
             super.dismiss();
             listener.exitGame();
         } else if (v.getId() == R.id.btn_play_again) {
-            dismiss();
+            super.dismiss();
+            listener.startNewGame();
         }
     }
 
     @Override
     public void dismiss() {
         super.dismiss();
-        listener.startNewGame();
+        listener.exitGame();
     }
 
     public void setGameOverPoints(int points) {
