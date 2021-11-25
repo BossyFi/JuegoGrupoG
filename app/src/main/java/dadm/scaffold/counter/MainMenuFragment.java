@@ -1,18 +1,14 @@
 package dadm.scaffold.counter;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.media.Image;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import dadm.scaffold.BaseFragment;
 import dadm.scaffold.R;
@@ -41,6 +37,16 @@ public class MainMenuFragment extends BaseFragment implements View.OnClickListen
         view.findViewById(R.id.btn_start).setOnClickListener(this);
         view.findViewById(R.id.btn_sound).setOnClickListener(this);
         view.findViewById(R.id.btn_music).setOnClickListener(this);
+        Animation pulseAnimation = AnimationUtils.
+                loadAnimation(getActivity(), R.anim.button_pulse);
+        view.findViewById(R.id.btn_start).startAnimation(
+                pulseAnimation);
+        Animation titleAnimation = AnimationUtils.loadAnimation(getActivity(),
+                R.anim.title_enter);
+        view.findViewById(R.id.GameTitle).startAnimation(titleAnimation);
+        Animation subtitleAnimation = AnimationUtils.loadAnimation(getActivity(),
+                R.anim.subtitle_enter);
+        view.findViewById(R.id.GameSubtitle).startAnimation(subtitleAnimation);
     }
 
     @Override
