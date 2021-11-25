@@ -8,6 +8,7 @@ import dadm.scaffold.ScaffoldActivity;
 public class QuitDialog extends BaseCustomDialog implements View.
         OnClickListener {
     private QuitDialogListener listener;
+    private int selectedId;
 
     public QuitDialog(ScaffoldActivity activity) {
         super(activity);
@@ -22,15 +23,18 @@ public class QuitDialog extends BaseCustomDialog implements View.
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.btn_exit) {
-            dismiss();
-            listener.exit();
-        } else if (v.getId() == R.id.btn_resume) {
-            dismiss();
-        }
+        selectedId = v.getId();
+        dismiss();
     }
 
     public interface QuitDialogListener {
         void exit();
+    }
+
+    @Override
+    protected void onDismissed() {
+        if (selectedId == R.id.btn_exit) {
+            listener.exit();
+        }
     }
 }
