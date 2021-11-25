@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 
 import dadm.scaffold.BaseFragment;
@@ -42,29 +41,6 @@ public class GameFragment extends BaseFragment implements View.OnClickListener, 
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         view.findViewById(R.id.btn_pause).setOnClickListener(this);
-        final ViewTreeObserver observer = view.getViewTreeObserver();
-        observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                //Para evitar que sea llamado múltiples veces,
-                //se elimina el listener en cuanto es llamado
-                observer.removeOnGlobalLayoutListener(this);
-                GameView gameView = (GameView) getView().findViewById(R.id.gameView);
-                theGameEngine = new GameEngine(getActivity(), gameView);
-                theGameEngine.setSoundManager(getScaffoldActivity().getSoundManager());
-                theGameEngine.setTheInputController(new JoystickInputController(getView()));
-                scoreGameObject = new ScoreGameObject(getView(), R.id.score_value);
-                theGameEngine.addGameObject(scoreGameObject);
-                theGameEngine.addGameObject(new ParallaxBackground(theGameEngine, 20, R.drawable.seamless_space_0));
-                //theGameEngine.addGameObject(new SpaceShipPlayer(theGameEngine));
-                theGameEngine.addGameObject(new LivesCounter(getView(), R.id.lives_value));
-                theGameEngine.addGameObject(new FramesPerSecondCounter(theGameEngine));
-                theGameEngine.addGameObject(new GameController(theGameEngine, gameFragment));
-                theGameEngine.startGame();
-            }
-        });
-
-
     }
 
     @Override
@@ -176,5 +152,10 @@ public class GameFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     public void onInputDeviceChanged(int i) {
 
+    }
+
+    @Override
+    public void onLayoutCompleted() {
+        prepareAndStartGame();
     }
 }
