@@ -19,13 +19,17 @@ public abstract class Sprite extends ScreenGameObject {
 
     protected int alpha = 255;
 
-    private final Bitmap bitmap;
+    private Bitmap bitmap;
 
     private final Matrix matrix = new Matrix();
 
     private Paint paint;
 
+    private GameEngine gameEngine;
+
     protected Sprite(GameEngine gameEngine, int drawableRes) {
+
+        this.gameEngine = gameEngine;
         Resources r = gameEngine.getContext().getResources();
         Drawable spriteDrawable = r.getDrawable(drawableRes);
         paint = new Paint();
@@ -60,7 +64,7 @@ public abstract class Sprite extends ScreenGameObject {
         if (mBodyType == BodyType.Circular) {
             canvas.drawCircle(
                     (int) (positionX + width / 2),
-                    (int) (positionY + height/ 2),
+                    (int) (positionY + height / 2),
                     (int) radius,
                     paint);
         } else if (mBodyType == BodyType.Rectangular) {
@@ -78,9 +82,15 @@ public abstract class Sprite extends ScreenGameObject {
         matrix.postScale(scaleFactor, scaleFactor);
         matrix.postTranslate((float) positionX, (float) positionY);
         matrix.postRotate((float) rotation,
-                (float) (positionX + width  / 2),
-                (float) (positionY + height  / 2));
+                (float) (positionX + width / 2),
+                (float) (positionY + height / 2));
         paint.setAlpha(alpha);
         canvas.drawBitmap(bitmap, matrix, paint);
+    }
+
+    public void setBitmap(int drawableRes) {
+        Resources r = gameEngine.getContext().getResources();
+        Drawable spriteDrawable = r.getDrawable(drawableRes);
+        this.bitmap = ((BitmapDrawable) spriteDrawable).getBitmap();
     }
 }

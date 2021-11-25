@@ -1,5 +1,7 @@
 package dadm.scaffold.space;
 
+import android.graphics.Canvas;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,13 +19,18 @@ public class SpaceShipPlayer extends Sprite {
     List<Bullet> bullets = new ArrayList<Bullet>();
     private long timeSinceLastFire;
 
+    private long lastFrameChangeTime = 0;
+    private final int frameLengthInMillisecond = 500;
+    private int nextResourceIntegerId = 0;
+
     private int maxX;
     private int maxY;
     private double speedFactor;
 
 
     public SpaceShipPlayer(GameEngine gameEngine) {
-        super(gameEngine, R.drawable.ship);
+        super(gameEngine, R.drawable.ship_a);
+        nextResourceIntegerId = R.drawable.ship_b;
         speedFactor = pixelFactor * 100d / 1000d; // We want to move at 100px per second on a 400px tall screen
         maxX = gameEngine.width - width;
         maxY = gameEngine.height - height;
@@ -112,5 +119,20 @@ public class SpaceShipPlayer extends Sprite {
             a.removeObject(gameEngine);
             gameEngine.onGameEvent(GameEvent.SpaceshipHit);
         }
+    }
+
+    @Override
+    public void onDraw(Canvas canvas) {
+        long time = System.currentTimeMillis();
+        if (time > lastFrameChangeTime + frameLengthInMillisecond) {
+            lastFrameChangeTime = time;
+            super.setBitmap(nextResourceIntegerId);
+            if (nextResourceIntegerId == R.drawable.ship_a) {
+                nextResourceIntegerId = R.drawable.ship_b;
+            } else {
+                nextResourceIntegerId = R.drawable.ship_a;
+            }
+        }
+        super.onDraw(canvas);
     }
 }
