@@ -8,7 +8,7 @@ import java.util.List;
 public class QuadTree {
 
     private static final int MAX_QUADTREES = 12;
-    private static int MAX_OBJECTS_TO_CHECK = 20;
+    private static int MAX_OBJECTS_TO_CHECK = 2;
 
     private List<ScreenGameObject> gameObjects = new ArrayList<ScreenGameObject>();
     private Rect area = new Rect();
@@ -27,17 +27,17 @@ public class QuadTree {
     }
 
     public void setArea(Rect area) {
-        area.set(area);
+        this.area.set(area);
     }
 
     public void checkObjects(List<ScreenGameObject> gameObjects) {
-        gameObjects.clear();
+        this.gameObjects.clear();
         int numObjects = gameObjects.size();
         for (int i = 0; i < numObjects; i++) {
             ScreenGameObject current = gameObjects.get(i);
             Rect boundingRect = current.mBoundingRect;
             if (Rect.intersects(boundingRect, area)) {
-                gameObjects.add(current);
+                this.gameObjects.add(current);
             }
         }
     }
@@ -47,8 +47,7 @@ public class QuadTree {
         if (numObjects > MAX_OBJECTS_TO_CHECK && quadTreePool.size() >= 4) {
             // Split this area in 4
             splitAndCheck(gameEngine, detectedCollisions);
-        }
-        else {
+        } else {
             for (int i = 0; i < numObjects; i++) {
                 ScreenGameObject objectA = gameObjects.get(i);
                 for (int j = i + 1; j < numObjects; j++) {
@@ -68,7 +67,7 @@ public class QuadTree {
 
     private boolean hasBeenDetected(List<Collision> detectedCollisions, Collision c) {
         int numCollisions = detectedCollisions.size();
-        for (int i=0; i<numCollisions; i++) {
+        for (int i = 0; i < numCollisions; i++) {
             if (detectedCollisions.get(i).equals(c)) {
                 return true;
             }
@@ -77,10 +76,10 @@ public class QuadTree {
     }
 
     private void splitAndCheck(GameEngine gameEngine, List<Collision> detectedCollisions) {
-        for (int i=0 ; i<4; i++) {
+        for (int i = 0; i < 4; i++) {
             children[i] = quadTreePool.remove(0);
         }
-        for (int i=0 ; i<4; i++) {
+        for (int i = 0; i < 4; i++) {
             children[i].setArea(getArea(i));
             children[i].checkObjects(gameObjects);
             children[i].checkCollisions(gameEngine, detectedCollisions);

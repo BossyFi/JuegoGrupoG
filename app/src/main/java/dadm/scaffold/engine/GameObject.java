@@ -67,4 +67,12 @@ public abstract class GameObject {
     public void onGameEvent(GameEvent event) {
 
     }
+
+    public void addToGameEngine(GameEngine gameEngine) {
+        gameEngine.addGameObject(this);
+    }
+
+    public void removeFromGameEngine(GameEngine gameEngine) {
+        gameEngine.removeGameObject(this);
+    }
 }

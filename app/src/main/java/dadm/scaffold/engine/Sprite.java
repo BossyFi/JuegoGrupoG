@@ -11,13 +11,13 @@ import android.graphics.drawable.Drawable;
 
 public abstract class Sprite extends ScreenGameObject {
 
-    protected double rotation;
+    public double rotation;
 
     protected double pixelFactor;
 
-    protected float scale = 1f;
+    public double scale = 1f;
 
-    protected int alpha = 255;
+    public int alpha = 255;
 
     private Bitmap bitmap;
 
