@@ -17,6 +17,7 @@ public class GameController extends GameObject {
     private static final int TIME_BETWEEN_ENEMIES = 500;
     private long currentMillis;
     private List<Asteroid> asteroidPool = new ArrayList<Asteroid>();
+    private List<SpaceShipEnemy> spaceShipEnemyPool = new ArrayList<SpaceShipEnemy>();
     private int enemiesSpawned;
     private GameControllerState state;
     private GameFragment parent;
@@ -36,16 +37,18 @@ public class GameController extends GameObject {
 
     public GameController(GameEngine gameEngine) {
         // We initialize the pool of items now
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 20; i++) {
             asteroidPool.add(new Asteroid(this, gameEngine));
+            spaceShipEnemyPool.add(new SpaceShipEnemy(this, gameEngine));
         }
     }
 
     public GameController(GameEngine gameEngine, GameFragment parent) {
         this.parent = parent;
         // We initialize the pool of items now
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 20; i++) {
             asteroidPool.add(new Asteroid(this, gameEngine));
+            spaceShipEnemyPool.add(new SpaceShipEnemy(this, gameEngine));
         }
     }
 
@@ -73,12 +76,23 @@ public class GameController extends GameObject {
             long waveTimestamp = enemiesSpawned * TIME_BETWEEN_ENEMIES;
             if (currentMillis > waveTimestamp) {
                 // Spawn a new enemy
-                Asteroid a = asteroidPool.remove(0);
-                a.init(gameEngine);
-                gameEngine.addGameObject(a);
-                enemiesSpawned++;
-                return;
+                double prob = Math.random() * 101;
+                if (prob >= 30) {
+                    SpaceShipEnemy a = spaceShipEnemyPool.remove(0);
+                    a.init(gameEngine);
+                    gameEngine.addGameObject(a);
+                    enemiesSpawned++;
+                    return;
+                }else {
+                    Asteroid a = asteroidPool.remove(0);
+                    a.init(gameEngine);
+                    gameEngine.addGameObject(a);
+                    enemiesSpawned++;
+                    return;
+                }
             }
+
+
         } else if (state == GameControllerState.StoppingWave) {
             waitingTime += elapsedMillis;
             if (waitingTime > STOPPING_WAVE_WAITING_TIME) {
@@ -111,6 +125,10 @@ public class GameController extends GameObject {
 
     public void returnToPool(Asteroid asteroid) {
         asteroidPool.add(asteroid);
+    }
+
+    public void returnToPoolSpaceShip(SpaceShipEnemy spaceShipEnemy) {
+        spaceShipEnemyPool.add(spaceShipEnemy);
     }
 
     @Override

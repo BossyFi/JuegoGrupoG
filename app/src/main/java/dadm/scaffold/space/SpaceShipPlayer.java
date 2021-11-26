@@ -112,13 +112,35 @@ public class SpaceShipPlayer extends Sprite {
 
     @Override
     public void onCollision(GameEngine gameEngine, ScreenGameObject otherObject) {
-        if (otherObject instanceof Asteroid) {
+        if (otherObject instanceof Asteroid ) {
             gameEngine.removeGameObject(this);
             //gameEngine.stopGame();
             Asteroid a = (Asteroid) otherObject;
             a.removeObject(gameEngine);
             gameEngine.onGameEvent(GameEvent.SpaceshipHit);
         }
+
+        if(otherObject instanceof  EnemyBullet){
+            gameEngine.removeGameObject(this);
+            //gameEngine.stopGame();
+            EnemyBullet a = (EnemyBullet) otherObject;
+            a.removeObject(gameEngine);
+            //gameEngine.removeGameObject(a);
+            // And return it to the pool
+//            parent.releaseBullet(this);
+//            a.removeObject(gameEngine);
+            gameEngine.onGameEvent(GameEvent.SpaceshipHit);
+        }
+
+        if(otherObject instanceof SpaceShipEnemy){
+            gameEngine.removeGameObject(this);
+            //gameEngine.stopGame();
+            SpaceShipEnemy a = (SpaceShipEnemy) otherObject;
+            a.removeObject(gameEngine);
+            gameEngine.onGameEvent(GameEvent.SpaceshipHit);
+        }
+
+
     }
 
     @Override
