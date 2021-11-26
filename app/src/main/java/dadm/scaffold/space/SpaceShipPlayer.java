@@ -14,13 +14,17 @@ import dadm.scaffold.sound.GameEvent;
 
 public class SpaceShipPlayer extends Sprite {
 
-    private static final int INITIAL_BULLET_POOL_AMOUNT = 6;
+    private static final int INITIAL_BULLET_POOL_AMOUNT = 20;
     private static final long TIME_BETWEEN_BULLETS = 250;
     private static final long TIME_SPECIAL_ATTACK = 100;
     private static final long MAX_BULLETS_FIRED = 2;
     private long timeSinceLastSpecialAttack = 100;
     private static final int CD_RELOAD = 2000;
     private long timeSinceLastReload = 0;
+
+    private static final long POWER_UP_DURATION = 5000;
+    private long currentPowerUpTime = 0;
+    private boolean hasPowerUp = false;
 
     List<Bullet> bullets = new ArrayList<Bullet>();
 
@@ -166,10 +170,10 @@ public class SpaceShipPlayer extends Sprite {
 
             timeSinceLastSpecialAttack += elapsedMillis;
 
-            if (timeSinceLastReload > CD_RELOAD && bulletsFired>=MAX_BULLETS_FIRED) {
+            if (timeSinceLastReload > CD_RELOAD && bulletsFired >= MAX_BULLETS_FIRED) {
                 timeSinceLastReload = 0;
                 bulletsFired = 0;
-            }else{
+            } else {
                 timeSinceLastReload += elapsedMillis;
             }
 
@@ -178,16 +182,39 @@ public class SpaceShipPlayer extends Sprite {
 
 
         if (timeSinceLastFire > TIME_BETWEEN_BULLETS) {
-            Bullet bullet = getBullet();
-            if (bullet == null) {
-                return;
+            if (hasPowerUp && currentPowerUpTime < POWER_UP_DURATION) {
+
+                Bullet bullet = getBullet();
+                Bullet bullet2 = getBullet();
+                if (bullet == null) {
+                    return;
+                }
+                if (bullet2 == null) {
+                    return;
+                }
+                bullet.init(this, (positionX + width / 2) + 25, positionY);
+                bullet2.init(this, (positionX + width / 2) - 25, positionY);
+                gameEngine.addGameObject(bullet);
+                gameEngine.addGameObject(bullet2);
+                timeSinceLastFire = 0;
+                gameEngine.onGameEvent(GameEvent.LaserFired);
+
+            } else {
+                Bullet bullet = getBullet();
+                if (bullet == null) {
+                    return;
+                }
+                bullet.init(this, positionX + width / 2, positionY);
+                gameEngine.addGameObject(bullet);
+                timeSinceLastFire = 0;
+
+                hasPowerUp=false;
             }
-            bullet.init(this, positionX + width / 2, positionY);
-            gameEngine.addGameObject(bullet);
-            timeSinceLastFire = 0;
-            gameEngine.onGameEvent(GameEvent.LaserFired);
+
+
         } else {
             timeSinceLastFire += elapsedMillis;
+            currentPowerUpTime+=elapsedMillis;
         }
     }
 
@@ -219,6 +246,15 @@ public class SpaceShipPlayer extends Sprite {
             SpaceShipEnemy a = (SpaceShipEnemy) otherObject;
             a.removeObject(gameEngine);
             gameEngine.onGameEvent(GameEvent.SpaceshipHit);
+        }
+
+        if (otherObject instanceof PowerUp) {
+
+            PowerUp a = (PowerUp) otherObject;
+            a.removeObject(gameEngine);
+            currentPowerUpTime=0;
+            hasPowerUp=true;
+
         }
 
 

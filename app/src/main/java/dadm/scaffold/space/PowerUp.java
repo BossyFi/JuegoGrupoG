@@ -22,7 +22,7 @@ public class PowerUp extends Sprite {
 
     public PowerUp(GameController gameController, GameEngine gameEngine) {
         super(gameEngine, R.drawable.power_up);
-        this.speed = 150d * pixelFactor / 1000d;
+        this.speed = 100d * pixelFactor / 1000d;
         this.gameController = gameController;
         mBodyType = BodyType.Circular;
         //necesito otro sprite para el trail

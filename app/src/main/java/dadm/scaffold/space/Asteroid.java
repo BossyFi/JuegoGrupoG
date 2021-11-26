@@ -65,7 +65,11 @@ public class Asteroid extends Sprite {
 
     public void removeObject(GameEngine gameEngine) {
         // Return to the pool
-        gameController.spawnPowerUp(gameEngine,positionX,positionY);
+        double prob = Math.random() * 101;
+
+        if (prob >= 80) {
+            gameController.spawnPowerUp(gameEngine, positionX, positionY);
+        }
 
         gameEngine.removeGameObject(this);
         gameController.returnToPool(this);
