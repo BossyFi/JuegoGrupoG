@@ -13,8 +13,9 @@ public class BulletLeft extends Sprite {
     private SpaceShipPlayer parent;
 
     public BulletLeft(GameEngine gameEngine) {
-        super(gameEngine, R.drawable.bullet);
-        mBodyType = BodyType.Rectangular;
+        super(gameEngine, R.drawable.side_bullets);
+        mBodyType = BodyType.Circular;
+
         speedFactor = gameEngine.pixelFactor * -300d / 1000d;
     }
 

@@ -13,8 +13,8 @@ public class BulletRight extends Sprite {
     private SpaceShipPlayer parent;
 
     public BulletRight(GameEngine gameEngine) {
-        super(gameEngine, R.drawable.bullet);
-        mBodyType = BodyType.Rectangular;
+        super(gameEngine, R.drawable.side_bullets);
+        mBodyType = BodyType.Circular;
         speedFactor = gameEngine.pixelFactor * -300d / 1000d;
     }
 
@@ -43,6 +43,7 @@ public class BulletRight extends Sprite {
         positionX = initPositionX - width / 2;
         positionY = initPositionY - height / 2;
         parent = parentPlayer;
+
     }
 
     private void removeObject(GameEngine gameEngine) {
