@@ -13,10 +13,11 @@ import android.widget.ImageView;
 import dadm.scaffold.BaseFragment;
 import dadm.scaffold.R;
 import dadm.scaffold.ScaffoldActivity;
+import dadm.scaffold.database.Preferences;
 import dadm.scaffold.sound.SoundManager;
 
 
-public class MainMenuFragment extends BaseFragment implements View.OnClickListener, QuitDialog.QuitDialogListener {
+public class MainMenuFragment extends BaseFragment implements View.OnClickListener, QuitDialog.QuitDialogListener, ChooseShipDialog.ChooseShipDialogListener {
     private boolean musicPressed;
     private boolean soundPressed;
 
@@ -37,6 +38,7 @@ public class MainMenuFragment extends BaseFragment implements View.OnClickListen
         view.findViewById(R.id.btn_start).setOnClickListener(this);
         view.findViewById(R.id.btn_sound).setOnClickListener(this);
         view.findViewById(R.id.btn_music).setOnClickListener(this);
+        view.findViewById(R.id.btn_choose_ship).setOnClickListener(this);
         Animation pulseAnimation = AnimationUtils.
                 loadAnimation(getActivity(), R.anim.button_pulse);
         view.findViewById(R.id.btn_start).startAnimation(
@@ -63,6 +65,8 @@ public class MainMenuFragment extends BaseFragment implements View.OnClickListen
                     getScaffoldActivity().getSoundManager();
             soundManager.toggleSoundStatus();
             updateSoundAndMusicButtons();
+        } else if (v.getId() == R.id.btn_choose_ship) {
+            showShipMenu();
         }
     }
 
@@ -105,8 +109,24 @@ public class MainMenuFragment extends BaseFragment implements View.OnClickListen
         return true;
     }
 
+    private void showShipMenu() {
+        ChooseShipDialog shipDialog = new ChooseShipDialog(getScaffoldActivity());
+        shipDialog.setListener(this);
+        showDialog(shipDialog);
+    }
+
     @Override
     public void exit() {
         getScaffoldActivity().finish();
+    }
+
+    @Override
+    public void chooseFirstShip() {
+        Preferences.SetShipValue(getScaffoldActivity().getApplicationContext(), "PickedShip", R.drawable.ship_a);
+    }
+
+    @Override
+    public void chooseSecondShip() {
+        Preferences.SetShipValue(getScaffoldActivity().getApplicationContext(), "PickedShip", R.drawable.player2_a);
     }
 }

@@ -20,5 +20,6 @@
     <string name="play_again">Play Again?</string>
     <string name="final_score">Score: </string>
     <string name="the_game">The Game</string>
+    <string name="choose_ship">Choose Ship</string>
 
 </resources>

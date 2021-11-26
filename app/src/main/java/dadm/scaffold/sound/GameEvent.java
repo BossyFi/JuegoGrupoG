@@ -8,5 +8,6 @@ public enum GameEvent {
     AsteroidMissed,
     LifeAdded,
     GameOver,
-    LifeLost
+    LifeLost,
+    PowerUp
 }

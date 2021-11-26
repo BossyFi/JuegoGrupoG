@@ -1,11 +1,13 @@
 package dadm.scaffold.space;
 
+import android.content.Context;
 import android.graphics.Canvas;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import dadm.scaffold.R;
+import dadm.scaffold.database.Preferences;
 import dadm.scaffold.engine.GameEngine;
 import dadm.scaffold.engine.ScreenGameObject;
 import dadm.scaffold.engine.Sprite;
@@ -45,10 +47,16 @@ public class SpaceShipPlayer extends Sprite {
     private int maxY;
     private double speedFactor;
 
+    private Context preferenceContext;
 
-    public SpaceShipPlayer(GameEngine gameEngine) {
-        super(gameEngine, R.drawable.ship_a);
-        nextResourceIntegerId = R.drawable.ship_b;
+    public SpaceShipPlayer(GameEngine gameEngine, Context context) {
+        super(gameEngine, Preferences.GetShipValue(context, "PickedShip"), context);
+        if (Preferences.GetShipValue(context, "PickedShip") == R.drawable.ship_a) {
+            nextResourceIntegerId = R.drawable.ship_b;
+        } else {
+            nextResourceIntegerId = R.drawable.player2_b;
+        }
+
         speedFactor = pixelFactor * 100d / 1000d; // We want to move at 100px per second on a 400px tall screen
         maxX = gameEngine.width - width;
         maxY = gameEngine.height - height;
@@ -207,14 +215,14 @@ public class SpaceShipPlayer extends Sprite {
                 bullet.init(this, positionX + width / 2, positionY);
                 gameEngine.addGameObject(bullet);
                 timeSinceLastFire = 0;
-
-                hasPowerUp=false;
+                gameEngine.onGameEvent(GameEvent.LaserFired);
+                hasPowerUp = false;
             }
 
 
         } else {
             timeSinceLastFire += elapsedMillis;
-            currentPowerUpTime+=elapsedMillis;
+            currentPowerUpTime += elapsedMillis;
         }
     }
 
@@ -252,9 +260,9 @@ public class SpaceShipPlayer extends Sprite {
 
             PowerUp a = (PowerUp) otherObject;
             a.removeObject(gameEngine);
-            currentPowerUpTime=0;
-            hasPowerUp=true;
-
+            currentPowerUpTime = 0;
+            hasPowerUp = true;
+            gameEngine.onGameEvent(GameEvent.PowerUp);
         }
 
 
@@ -268,8 +276,12 @@ public class SpaceShipPlayer extends Sprite {
             super.setBitmap(nextResourceIntegerId);
             if (nextResourceIntegerId == R.drawable.ship_a) {
                 nextResourceIntegerId = R.drawable.ship_b;
-            } else {
+            } else if (nextResourceIntegerId == R.drawable.ship_b) {
                 nextResourceIntegerId = R.drawable.ship_a;
+            } else if (nextResourceIntegerId == R.drawable.player2_a) {
+                nextResourceIntegerId = R.drawable.player2_b;
+            } else if (nextResourceIntegerId == R.drawable.player2_b) {
+                nextResourceIntegerId = R.drawable.player2_a;
             }
         }
         super.onDraw(canvas);

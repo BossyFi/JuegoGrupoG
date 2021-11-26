@@ -60,6 +60,7 @@ public final class SoundManager {
         loadEventSound(context, GameEvent.SpaceshipHit, "Spaceship_explosion.wav");
         loadEventSound(context, GameEvent.LaserFired, "Laser_shoot.wav");
         loadEventSound(context, GameEvent.EnemyLaser, "enemyLaser.wav");
+        loadEventSound(context, GameEvent.PowerUp, "powerUp2.wav");
     }
 
     private void loadMusic() {

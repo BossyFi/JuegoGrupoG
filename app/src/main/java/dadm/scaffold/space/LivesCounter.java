@@ -1,10 +1,12 @@
 package dadm.scaffold.space;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import dadm.scaffold.R;
+import dadm.scaffold.database.Preferences;
 import dadm.scaffold.engine.GameEngine;
 import dadm.scaffold.engine.GameObject;
 import dadm.scaffold.sound.GameEvent;
@@ -12,9 +14,11 @@ import dadm.scaffold.sound.GameEvent;
 public class LivesCounter extends GameObject {
 
     private final LinearLayout layout;
+    private Context context;
 
-    public LivesCounter(View view, int viewResId) {
+    public LivesCounter(View view, int viewResId, Context context) {
         layout = (LinearLayout) view.findViewById(viewResId);
+        this.context = context;
     }
 
     @Override
@@ -57,8 +61,14 @@ public class LivesCounter extends GameObject {
         @Override
         public void run() {
             // Añadimos vida
-            View spaceship = View.inflate(layout.getContext(),
-                    R.layout.view_spaceship, layout);
+            if (Preferences.GetShipValue(context, "PickedShip") == R.drawable.ship_a) {
+                View spaceship = View.inflate(layout.getContext(),
+                        R.layout.view_spaceship, layout);
+            } else {
+                View spaceship = View.inflate(layout.getContext(),
+                        R.layout.view_spaceship2, layout);
+            }
+
         }
     };
 }

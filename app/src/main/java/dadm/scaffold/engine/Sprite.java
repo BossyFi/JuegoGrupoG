@@ -1,5 +1,6 @@
 package dadm.scaffold.engine;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -28,6 +29,22 @@ public abstract class Sprite extends ScreenGameObject {
     private GameEngine gameEngine;
 
     protected Sprite(GameEngine gameEngine, int drawableRes) {
+
+        this.gameEngine = gameEngine;
+        Resources r = gameEngine.getContext().getResources();
+        Drawable spriteDrawable = r.getDrawable(drawableRes);
+        paint = new Paint();
+        this.pixelFactor = gameEngine.pixelFactor;
+
+        this.width = (int) (spriteDrawable.getIntrinsicWidth() * this.pixelFactor * scale);
+        this.height = (int) (spriteDrawable.getIntrinsicHeight() * this.pixelFactor * scale);
+
+        this.bitmap = ((BitmapDrawable) spriteDrawable).getBitmap();
+
+        radius = Math.max(height, width) / 2;
+    }
+
+    protected Sprite(GameEngine gameEngine, int drawableRes, Context context) {
 
         this.gameEngine = gameEngine;
         Resources r = gameEngine.getContext().getResources();

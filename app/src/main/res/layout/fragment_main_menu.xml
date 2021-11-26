@@ -41,6 +41,7 @@
         android:id="@+id/btn_sound"
         android:layout_width="@dimen/btn_round_size"
         android:layout_height="@dimen/btn_round_size"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_margin="@dimen/activity_vertical_margin"
@@ -52,9 +53,21 @@
         android:layout_width="@dimen/btn_round_size"
         android:layout_height="@dimen/btn_round_size"
         android:layout_alignBottom="@+id/btn_sound"
+        android:layout_toStartOf="@+id/btn_sound"
         android:layout_toLeftOf="@+id/btn_sound"
         android:background="@drawable/button_normal"
         android:src="@drawable/volume_on_nobg" />
+
+    <ImageView
+        android:id="@+id/btn_choose_ship"
+        android:layout_width="@dimen/btn_round_size"
+        android:layout_height="@dimen/btn_round_size"
+        android:layout_alignBottom="@+id/btn_music"
+        android:layout_marginStart="@dimen/activity_vertical_margin"
+        android:layout_marginLeft="@dimen/activity_vertical_margin"
+        android:background="@drawable/button_normal"
+        android:padding="3dp"
+        android:src="@drawable/space_ship_icon" />
     <!--    <Button-->
     <!--        android:id="@+id/btn_sound"-->
     <!--        android:layout_width="wrap_content"-->

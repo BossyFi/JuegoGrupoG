@@ -1,5 +1,6 @@
 package dadm.scaffold.space;
 
+import android.content.Context;
 import android.graphics.Canvas;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class GameController extends GameObject {
     private int numLives = 0;
     private long STOPPING_WAVE_WAITING_TIME = 2000;
     private long WAITING_TIME = 500;
+    private Context context;
 
     public enum GameControllerState {
         StoppingWave,
@@ -44,13 +46,14 @@ public class GameController extends GameObject {
         }
     }
 
-    public GameController(GameEngine gameEngine, GameFragment parent) {
+    public GameController(GameEngine gameEngine, GameFragment parent, Context context) {
         this.parent = parent;
+        this.context = context;
         // We initialize the pool of items now
         for (int i = 0; i < 20; i++) {
             asteroidPool.add(new Asteroid(this, gameEngine));
             spaceShipEnemyPool.add(new SpaceShipEnemy(this, gameEngine));
-            powerUpPool.add(new PowerUp(this,gameEngine));
+            powerUpPool.add(new PowerUp(this, gameEngine));
         }
     }
 
@@ -72,9 +75,9 @@ public class GameController extends GameObject {
     }
 
 
-    public void spawnPowerUp(GameEngine gameEngine,double x, double y){
+    public void spawnPowerUp(GameEngine gameEngine, double x, double y) {
         PowerUp a = powerUpPool.remove(0);
-        a.init(gameEngine,x,y);
+        a.init(gameEngine, x, y);
         gameEngine.addGameObject(a);
     }
 
@@ -92,7 +95,7 @@ public class GameController extends GameObject {
                     gameEngine.addGameObject(a);
                     enemiesSpawned++;
                     return;
-                }else {
+                } else {
                     Asteroid a = asteroidPool.remove(0);
                     a.init(gameEngine);
                     gameEngine.addGameObject(a);
@@ -112,8 +115,8 @@ public class GameController extends GameObject {
                 gameEngine.onGameEvent(GameEvent.GameOver);
             } else {
                 gameEngine.onGameEvent(GameEvent.LifeLost);
-                SpaceShipPlayer newLife = new SpaceShipPlayer(gameEngine);
-                gameEngine.addGameObject(new SpaceShipPlayer(gameEngine));
+                SpaceShipPlayer newLife = new SpaceShipPlayer(gameEngine, context);
+                newLife.addToGameEngine(gameEngine);
                 newLife.startGame(gameEngine);
                 // We wait to start spawning more enemies
                 state = GameControllerState.Waiting;
