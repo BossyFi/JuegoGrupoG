@@ -1,5 +1,7 @@
 package dadm.scaffold.space;
 
+import android.graphics.Canvas;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +18,10 @@ public class SpaceShipEnemy extends Sprite {
     public static final int EXPLOSION_PARTICLES = 15;
     private final GameController gameController;
 
+    private long lastFrameChangeTime = 0;
+    private final int frameLengthInMillisecond = 500;
+    private int nextResourceIntegerId = 0;
+
     private double speed;
     private double speedX;
     private double speedY;
@@ -25,16 +31,15 @@ public class SpaceShipEnemy extends Sprite {
 
 
     //Shoot thing
-
-    private long lastFrameChangeTime = 0;
     private long timeSinceLastFire;
     private static final long TIME_BETWEEN_BULLETS = 600;
-    private static final int INITIAL_BULLET_POOL_AMOUNT = 3;
+    private static final int INITIAL_BULLET_POOL_AMOUNT = 2;
     List<EnemyBullet> bullets = new ArrayList<EnemyBullet>();
 
 
     public SpaceShipEnemy(GameController gameController, GameEngine gameEngine) {
-        super(gameEngine, R.drawable.ship_a);
+        super(gameEngine, R.drawable.enemyship_a);
+        nextResourceIntegerId = R.drawable.enemyship_b;
         this.speed = 80d * pixelFactor / 1000d;
         this.gameController = gameController;
         mBodyType = BodyType.Circular;
@@ -53,7 +58,7 @@ public class SpaceShipEnemy extends Sprite {
     public void init(GameEngine gameEngine) {
 
         //Balillas
-        initBulletPool(gameController,gameEngine);
+        initBulletPool(gameController, gameEngine);
 
         // They initialize in a [-30, 30] degrees angle
         double angle = gameEngine.random.nextDouble() * Math.PI / 3d - Math.PI / 6d;
@@ -131,9 +136,9 @@ public class SpaceShipEnemy extends Sprite {
     }
 
 
-    private void initBulletPool(GameController gameController,GameEngine gameEngine) {
+    private void initBulletPool(GameController gameController, GameEngine gameEngine) {
         for (int i = 0; i < INITIAL_BULLET_POOL_AMOUNT; i++) {
-            bullets.add(new EnemyBullet(gameController,gameEngine));
+            bullets.add(new EnemyBullet(gameController, gameEngine));
         }
     }
 
@@ -150,7 +155,6 @@ public class SpaceShipEnemy extends Sprite {
     }
 
 
-
     private void checkFiring(long elapsedMillis, GameEngine gameEngine) {
         //gameEngine.theInputController.isFiring
         if (timeSinceLastFire > TIME_BETWEEN_BULLETS) {
@@ -165,6 +169,21 @@ public class SpaceShipEnemy extends Sprite {
         } else {
             timeSinceLastFire += elapsedMillis;
         }
+    }
+
+    @Override
+    public void onDraw(Canvas canvas) {
+        long time = System.currentTimeMillis();
+        if (time > lastFrameChangeTime + frameLengthInMillisecond) {
+            lastFrameChangeTime = time;
+            super.setBitmap(nextResourceIntegerId);
+            if (nextResourceIntegerId == R.drawable.enemyship_a) {
+                nextResourceIntegerId = R.drawable.enemyship_b;
+            } else {
+                nextResourceIntegerId = R.drawable.enemyship_a;
+            }
+        }
+        super.onDraw(canvas);
     }
 
 

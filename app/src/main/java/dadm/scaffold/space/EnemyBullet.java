@@ -13,8 +13,8 @@ public class EnemyBullet extends Sprite {
     private SpaceShipEnemy parent;
 
     public EnemyBullet(GameController gameController, GameEngine gameEngine) {
-        super(gameEngine, R.drawable.bullet);
-        mBodyType = BodyType.Rectangular;
+        super(gameEngine, R.drawable.enemybullet_small);
+        mBodyType = BodyType.Circular;
         speedFactor = gameEngine.pixelFactor * 200d / 1000d;
         this.gameController = gameController;
     }
