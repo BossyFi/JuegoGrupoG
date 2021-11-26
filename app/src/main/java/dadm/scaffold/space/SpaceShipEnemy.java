@@ -161,7 +161,7 @@ public class SpaceShipEnemy extends Sprite {
             bullet.init(this, positionX + width / 2, positionY);
             gameEngine.addGameObject(bullet);
             timeSinceLastFire = 0;
-            gameEngine.onGameEvent(GameEvent.LaserFired);
+            gameEngine.onGameEvent(GameEvent.EnemyLaser);
         } else {
             timeSinceLastFire += elapsedMillis;
         }

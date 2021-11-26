@@ -49,7 +49,7 @@ public final class SoundManager {
         Integer soundId = soundsMap.get(event);
         if (soundId != null) {
             // Left Volume, Right Volume, priority (0 == lowest), loop (0 == no) and rate (1.0 normal playback rate)
-            soundPool.play(soundId, 1.0f, 1.0f, 0, 0, 1.0f);
+            soundPool.play(soundId, 0.5f, 0.5f, 0, 0, 1.0f);
         }
     }
 
@@ -59,6 +59,7 @@ public final class SoundManager {
         loadEventSound(context, GameEvent.AsteroidHit, "Asteroid_explosion_1.wav");
         loadEventSound(context, GameEvent.SpaceshipHit, "Spaceship_explosion.wav");
         loadEventSound(context, GameEvent.LaserFired, "Laser_shoot.wav");
+        loadEventSound(context, GameEvent.EnemyLaser, "enemyLaser.wav");
     }
 
     private void loadMusic() {
