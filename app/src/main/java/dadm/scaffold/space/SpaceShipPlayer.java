@@ -16,12 +16,26 @@ public class SpaceShipPlayer extends Sprite {
 
     private static final int INITIAL_BULLET_POOL_AMOUNT = 6;
     private static final long TIME_BETWEEN_BULLETS = 250;
+    private static final long TIME_SPECIAL_ATTACK = 100;
+    private static final long MAX_BULLETS_FIRED = 2;
+    private long timeSinceLastSpecialAttack = 100;
+    private static final int CD_RELOAD = 2000;
+    private long timeSinceLastReload = 0;
+
     List<Bullet> bullets = new ArrayList<Bullet>();
+
+
+    private static final int INITIAL_SPECIAL_BULLET_POOL_AMOUNT = 20;
+    List<BulletLeft> bulletsLeft = new ArrayList<BulletLeft>();
+    List<BulletRight> bulletsRight = new ArrayList<BulletRight>();
+//    List<Bullet> bullets = new ArrayList<Bullet>();
+
     private long timeSinceLastFire;
 
     private long lastFrameChangeTime = 0;
     private final int frameLengthInMillisecond = 500;
     private int nextResourceIntegerId = 0;
+    private int bulletsFired = 0;
 
     private int maxX;
     private int maxY;
@@ -44,6 +58,10 @@ public class SpaceShipPlayer extends Sprite {
         for (int i = 0; i < INITIAL_BULLET_POOL_AMOUNT; i++) {
             bullets.add(new Bullet(gameEngine));
         }
+        for (int i = 0; i < INITIAL_SPECIAL_BULLET_POOL_AMOUNT; i++) {
+            bulletsLeft.add(new BulletLeft(gameEngine));
+            bulletsRight.add(new BulletRight(gameEngine));
+        }
     }
 
     private Bullet getBullet() {
@@ -53,8 +71,31 @@ public class SpaceShipPlayer extends Sprite {
         return bullets.remove(0);
     }
 
+    private BulletLeft getBulletLeft() {
+        if (bulletsLeft.isEmpty()) {
+            return null;
+        }
+        return bulletsLeft.remove(0);
+    }
+
+    private BulletRight getBulletRight() {
+        if (bulletsRight.isEmpty()) {
+            return null;
+        }
+        return bulletsRight.remove(0);
+    }
+
+
     void releaseBullet(Bullet bullet) {
         bullets.add(bullet);
+    }
+
+    void releaseBullet(BulletRight bullet) {
+        bulletsRight.add(bullet);
+    }
+
+    void releaseBullet(BulletLeft bullet) {
+        bulletsLeft.add(bullet);
     }
 
 
@@ -95,7 +136,47 @@ public class SpaceShipPlayer extends Sprite {
     }
 
     private void checkFiring(long elapsedMillis, GameEngine gameEngine) {
-        //gameEngine.theInputController.isFiring
+
+
+        if (gameEngine.theInputController.isFiring &&
+                timeSinceLastSpecialAttack > TIME_SPECIAL_ATTACK &&
+                bulletsFired < MAX_BULLETS_FIRED) {
+
+            BulletLeft bulletLeft = getBulletLeft();
+            if (bulletLeft == null) {
+                return;
+            }
+            bulletLeft.init(this, positionX + width / 2, positionY);
+            gameEngine.addGameObject(bulletLeft);
+
+
+            BulletRight bulletRight = getBulletRight();
+            if (bulletRight == null) {
+                return;
+            }
+            bulletRight.init(this, positionX + width / 2, positionY);
+            gameEngine.addGameObject(bulletRight);
+
+
+            bulletsFired++;
+            timeSinceLastSpecialAttack = 0;
+            gameEngine.onGameEvent(GameEvent.LaserFired);
+
+        } else {
+
+            timeSinceLastSpecialAttack += elapsedMillis;
+
+            if (timeSinceLastReload > CD_RELOAD && bulletsFired>=MAX_BULLETS_FIRED) {
+                timeSinceLastReload = 0;
+                bulletsFired = 0;
+            }else{
+                timeSinceLastReload += elapsedMillis;
+            }
+
+
+        }
+
+
         if (timeSinceLastFire > TIME_BETWEEN_BULLETS) {
             Bullet bullet = getBullet();
             if (bullet == null) {
@@ -112,7 +193,7 @@ public class SpaceShipPlayer extends Sprite {
 
     @Override
     public void onCollision(GameEngine gameEngine, ScreenGameObject otherObject) {
-        if (otherObject instanceof Asteroid ) {
+        if (otherObject instanceof Asteroid) {
             gameEngine.removeGameObject(this);
             //gameEngine.stopGame();
             Asteroid a = (Asteroid) otherObject;
@@ -120,7 +201,7 @@ public class SpaceShipPlayer extends Sprite {
             gameEngine.onGameEvent(GameEvent.SpaceshipHit);
         }
 
-        if(otherObject instanceof  EnemyBullet){
+        if (otherObject instanceof EnemyBullet) {
             gameEngine.removeGameObject(this);
             //gameEngine.stopGame();
             EnemyBullet a = (EnemyBullet) otherObject;
@@ -132,7 +213,7 @@ public class SpaceShipPlayer extends Sprite {
             gameEngine.onGameEvent(GameEvent.SpaceshipHit);
         }
 
-        if(otherObject instanceof SpaceShipEnemy){
+        if (otherObject instanceof SpaceShipEnemy) {
             gameEngine.removeGameObject(this);
             //gameEngine.stopGame();
             SpaceShipEnemy a = (SpaceShipEnemy) otherObject;

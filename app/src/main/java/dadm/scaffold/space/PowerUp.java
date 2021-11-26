@@ -9,7 +9,7 @@ import dadm.scaffold.engine.particles.ScaleInitializer;
 import dadm.scaffold.engine.particles.ScaleModifier;
 import dadm.scaffold.sound.GameEvent;
 
-public class Asteroid extends Sprite {
+public class PowerUp extends Sprite {
     public static final int EXPLOSION_PARTICLES = 15;
     private final GameController gameController;
 
@@ -20,9 +20,9 @@ public class Asteroid extends Sprite {
     private ParticleSystem mTrailParticleSystem; //necesito un sprite para el trail
     private ParticleSystem mExplisionParticleSystem;
 
-    public Asteroid(GameController gameController, GameEngine gameEngine) {
-        super(gameEngine, R.drawable.a10000);
-        this.speed = 200d * pixelFactor / 1000d;
+    public PowerUp(GameController gameController, GameEngine gameEngine) {
+        super(gameEngine, R.drawable.power_up);
+        this.speed = 150d * pixelFactor / 1000d;
         this.gameController = gameController;
         mBodyType = BodyType.Circular;
         //necesito otro sprite para el trail
@@ -37,15 +37,19 @@ public class Asteroid extends Sprite {
         mExplisionParticleSystem.addInitializer(new ScaleInitializer(0.5));
     }
 
-    public void init(GameEngine gameEngine) {
+    public void init(GameEngine gameEngine,double _positionX,double _positionY) {
         // They initialize in a [-30, 30] degrees angle
         double angle = gameEngine.random.nextDouble() * Math.PI / 3d - Math.PI / 6d;
         speedX = speed * Math.sin(angle);
         speedY = speed * Math.cos(angle);
         // Asteroids initialize in the central 50% of the screen horizontally
-        positionX = gameEngine.random.nextInt(gameEngine.width / 2) + gameEngine.width / 4;
-        // They initialize outside of the screen vertically
-        positionY = -height;
+//        positionX = gameEngine.random.nextInt(gameEngine.width / 2) + gameEngine.width / 4;
+//        // They initialize outside of the screen vertically
+//        positionY = -height;
+
+        positionX=_positionX;
+        positionY=_positionY;
+
         rotationSpeed = angle * (180d / Math.PI) / 250d; // They rotate 4 times their ange in a second.
         rotation = gameEngine.random.nextInt(360);
         mTrailParticleSystem.clearInitializers()
@@ -65,10 +69,8 @@ public class Asteroid extends Sprite {
 
     public void removeObject(GameEngine gameEngine) {
         // Return to the pool
-        gameController.spawnPowerUp(gameEngine,positionX,positionY);
-
         gameEngine.removeGameObject(this);
-        gameController.returnToPool(this);
+        gameController.returnToPoolPowerUp(this);
     }
 
     @Override
@@ -86,7 +88,7 @@ public class Asteroid extends Sprite {
             // Return to the pool
             gameEngine.onGameEvent(GameEvent.AsteroidMissed);
             gameEngine.removeGameObject(this);
-            gameController.returnToPool(this);
+            gameController.returnToPoolPowerUp(this);
         }
     }
 

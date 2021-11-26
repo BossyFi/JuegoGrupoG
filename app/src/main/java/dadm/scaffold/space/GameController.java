@@ -17,6 +17,7 @@ public class GameController extends GameObject {
     private static final int TIME_BETWEEN_ENEMIES = 1000;
     private long currentMillis;
     private List<Asteroid> asteroidPool = new ArrayList<Asteroid>();
+    private List<PowerUp> powerUpPool = new ArrayList<PowerUp>();
     private List<SpaceShipEnemy> spaceShipEnemyPool = new ArrayList<SpaceShipEnemy>();
     private int enemiesSpawned;
     private GameControllerState state;
@@ -49,6 +50,7 @@ public class GameController extends GameObject {
         for (int i = 0; i < 20; i++) {
             asteroidPool.add(new Asteroid(this, gameEngine));
             spaceShipEnemyPool.add(new SpaceShipEnemy(this, gameEngine));
+            powerUpPool.add(new PowerUp(this,gameEngine));
         }
     }
 
@@ -67,6 +69,13 @@ public class GameController extends GameObject {
             gameEngine.onGameEvent(GameEvent.LifeAdded);
         }
         state = GameControllerState.PlacingSpaceship;
+    }
+
+
+    public void spawnPowerUp(GameEngine gameEngine,double x, double y){
+        PowerUp a = powerUpPool.remove(0);
+        a.init(gameEngine,x,y);
+        gameEngine.addGameObject(a);
     }
 
     @Override
@@ -125,6 +134,10 @@ public class GameController extends GameObject {
 
     public void returnToPool(Asteroid asteroid) {
         asteroidPool.add(asteroid);
+    }
+
+    public void returnToPoolPowerUp(PowerUp powerUp) {
+        powerUpPool.add(powerUp);
     }
 
     public void returnToPoolSpaceShip(SpaceShipEnemy spaceShipEnemy) {
