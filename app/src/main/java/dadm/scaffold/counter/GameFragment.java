@@ -15,6 +15,7 @@ import dadm.scaffold.engine.FramesPerSecondCounter;
 import dadm.scaffold.engine.GameEngine;
 import dadm.scaffold.engine.GameView;
 import dadm.scaffold.engine.ScoreGameObject;
+import dadm.scaffold.sound.GameEvent;
 import dadm.scaffold.space.LivesCounter;
 import dadm.scaffold.space.ParallaxBackground;
 import dadm.scaffold.input.JoystickInputController;
@@ -47,6 +48,7 @@ public class GameFragment extends BaseFragment implements View.OnClickListener, 
     public void onClick(View v) {
         if (v.getId() == R.id.btn_pause) {
             pauseGameAndShowPauseDialog();
+            getScaffoldActivity().getSoundManager().playSoundForGameEvent(GameEvent.PausedGame);
         }
     }
 
@@ -98,12 +100,14 @@ public class GameFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     public void exitGame() {
         theGameEngine.stopGame();
+        getScaffoldActivity().getSoundManager().playSoundForGameEvent(GameEvent.GoBackMenu);
         getScaffoldActivity().navigateBack();
     }
 
     @Override
     public void resumeGame() {
         theGameEngine.resumeGame();
+        getScaffoldActivity().getSoundManager().playSoundForGameEvent(GameEvent.ResumeGame);
     }
 
     @Override

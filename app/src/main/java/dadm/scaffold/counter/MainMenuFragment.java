@@ -14,6 +14,7 @@ import dadm.scaffold.BaseFragment;
 import dadm.scaffold.R;
 import dadm.scaffold.ScaffoldActivity;
 import dadm.scaffold.database.Preferences;
+import dadm.scaffold.sound.GameEvent;
 import dadm.scaffold.sound.SoundManager;
 
 
@@ -55,6 +56,7 @@ public class MainMenuFragment extends BaseFragment implements View.OnClickListen
     public void onClick(View v) {
         if (v.getId() == R.id.btn_start) {
             ((ScaffoldActivity) getActivity()).startGame();
+            getScaffoldActivity().getSoundManager().playSoundForGameEvent(GameEvent.StartGame);
         } else if (v.getId() == R.id.btn_music) {
             SoundManager soundManager =
                     getScaffoldActivity().getSoundManager();
@@ -123,10 +125,12 @@ public class MainMenuFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void chooseFirstShip() {
         Preferences.SetShipValue(getScaffoldActivity().getApplicationContext(), "PickedShip", R.drawable.ship_a);
+        //getScaffoldActivity().getSoundManager().playSoundForGameEvent(GameEvent.PickedShip);
     }
 
     @Override
     public void chooseSecondShip() {
         Preferences.SetShipValue(getScaffoldActivity().getApplicationContext(), "PickedShip", R.drawable.player2_a);
+        //getScaffoldActivity().getSoundManager().playSoundForGameEvent(GameEvent.PickedShip);
     }
 }

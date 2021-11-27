@@ -17,7 +17,7 @@ public final class SoundManager {
     public String SOUNDS_PREF_KEY = "Sound";
     public String MUSIC_PREF_KEY = "Music";
     private static final int MAX_STREAMS = 10;
-    private static final float DEFAULT_MUSIC_VOLUME = 0.6f;
+    private static final float DEFAULT_MUSIC_VOLUME = 0.8f;
     private boolean soundEnabled;
     private boolean musicEnabled;
     private HashMap<GameEvent, Integer> soundsMap;
@@ -49,7 +49,7 @@ public final class SoundManager {
         Integer soundId = soundsMap.get(event);
         if (soundId != null) {
             // Left Volume, Right Volume, priority (0 == lowest), loop (0 == no) and rate (1.0 normal playback rate)
-            soundPool.play(soundId, 0.5f, 0.5f, 0, 0, 1.0f);
+            soundPool.play(soundId, 0.05f, 0.05f, 0, 0, 1.0f);
         }
     }
 
@@ -58,9 +58,13 @@ public final class SoundManager {
         soundsMap = new HashMap<GameEvent, Integer>();
         loadEventSound(context, GameEvent.AsteroidHit, "Asteroid_explosion_1.wav");
         loadEventSound(context, GameEvent.SpaceshipHit, "Spaceship_explosion.wav");
-        loadEventSound(context, GameEvent.LaserFired, "Laser_shoot.wav");
-        loadEventSound(context, GameEvent.EnemyLaser, "enemyLaser.wav");
+        loadEventSound(context, GameEvent.LaserFired, "enemyLaser.wav");
+        loadEventSound(context, GameEvent.EnemyLaser, "Laser_shoot.wav");
         loadEventSound(context, GameEvent.PowerUp, "powerUp2.wav");
+        loadEventSound(context, GameEvent.StartGame, "start_game.wav");
+        loadEventSound(context, GameEvent.GoBackMenu, "go_back.wav");
+        loadEventSound(context, GameEvent.ResumeGame, "resume_game.wav");
+        loadEventSound(context, GameEvent.PausedGame, "pause_sound.wav");
     }
 
     private void loadMusic() {

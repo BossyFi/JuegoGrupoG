@@ -9,5 +9,9 @@ public enum GameEvent {
     LifeAdded,
     GameOver,
     LifeLost,
-    PowerUp
+    PowerUp,
+    StartGame,
+    GoBackMenu,
+    ResumeGame,
+    PausedGame
 }
