@@ -67,7 +67,7 @@ public class Bullet extends Sprite {
             SpaceShipEnemy a = (SpaceShipEnemy) otherObject;
             a.removeObject(gameEngine);
             a.explode(gameEngine);
-            gameEngine.onGameEvent(GameEvent.AsteroidHit);
+            gameEngine.onGameEvent(GameEvent.EnemyShipHit);
             // Add some score
         }
     }

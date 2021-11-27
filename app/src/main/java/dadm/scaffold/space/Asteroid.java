@@ -67,7 +67,7 @@ public class Asteroid extends Sprite {
         // Return to the pool
         double prob = Math.random() * 101;
 
-        if (prob >= 80) {
+        if (prob >= 60) {
             gameController.spawnPowerUp(gameEngine, positionX, positionY);
         }
 
