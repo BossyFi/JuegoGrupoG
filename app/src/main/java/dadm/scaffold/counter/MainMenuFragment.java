@@ -125,12 +125,12 @@ public class MainMenuFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void chooseFirstShip() {
         Preferences.SetShipValue(getScaffoldActivity().getApplicationContext(), "PickedShip", R.drawable.ship_a);
-        //getScaffoldActivity().getSoundManager().playSoundForGameEvent(GameEvent.PickedShip);
+        getScaffoldActivity().getSoundManager().playSoundForGameEvent(GameEvent.PickedShip);
     }
 
     @Override
     public void chooseSecondShip() {
         Preferences.SetShipValue(getScaffoldActivity().getApplicationContext(), "PickedShip", R.drawable.player2_a);
-        //getScaffoldActivity().getSoundManager().playSoundForGameEvent(GameEvent.PickedShip);
+        getScaffoldActivity().getSoundManager().playSoundForGameEvent(GameEvent.PickedShip);
     }
 }

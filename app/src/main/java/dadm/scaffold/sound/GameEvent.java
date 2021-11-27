@@ -14,5 +14,6 @@ public enum GameEvent {
     GoBackMenu,
     ResumeGame,
     PausedGame,
-    EnemyShipHit
+    EnemyShipHit,
+    PickedShip
 }

@@ -56,7 +56,8 @@ public final class SoundManager {
     private void loadSounds() {
         createSoundPool();
         soundsMap = new HashMap<GameEvent, Integer>();
-        loadEventSound(context, GameEvent.AsteroidHit, "Asteroid_explosion_1.wav");
+        loadEventSound(context, GameEvent.EnemyShipHit, "Asteroid_explosion_1.wav");
+        loadEventSound(context, GameEvent.AsteroidHit, "rock_destroy.wav");
         loadEventSound(context, GameEvent.SpaceshipHit, "Spaceship_explosion.wav");
         loadEventSound(context, GameEvent.LaserFired, "enemyLaser.wav");
         loadEventSound(context, GameEvent.EnemyLaser, "Laser_shoot.wav");
@@ -65,6 +66,7 @@ public final class SoundManager {
         loadEventSound(context, GameEvent.GoBackMenu, "go_back.wav");
         loadEventSound(context, GameEvent.ResumeGame, "resume_game.wav");
         loadEventSound(context, GameEvent.PausedGame, "pause_sound.wav");
+        loadEventSound(context, GameEvent.PickedShip, "choosed_ship.wav");
     }
 
     private void loadMusic() {
