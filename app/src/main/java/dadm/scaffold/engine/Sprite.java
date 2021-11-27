@@ -77,16 +77,16 @@ public abstract class Sprite extends ScreenGameObject {
 //                (int) (positionY + height / 2),
 //                (int) radius,
 //                paint);
-        paint.setColor(Color.YELLOW);
-        if (mBodyType == BodyType.Circular) {
-            canvas.drawCircle(
-                    (int) (positionX + width / 2),
-                    (int) (positionY + height / 2),
-                    (int) radius,
-                    paint);
-        } else if (mBodyType == BodyType.Rectangular) {
-            canvas.drawRect(mBoundingRect, paint);
-        }
+//        paint.setColor(Color.YELLOW);
+//        if (mBodyType == BodyType.Circular) {
+//            canvas.drawCircle(
+//                    (int) (positionX + width / 2),
+//                    (int) (positionY + height / 2),
+//                    (int) radius,
+//                    paint);
+//        } else if (mBodyType == BodyType.Rectangular) {
+//            canvas.drawRect(mBoundingRect, paint);
+//        }
 //        //Testeo colisiones
 //        matrix.reset();
 //        matrix.postScale((float) pixelFactor, (float) pixelFactor);

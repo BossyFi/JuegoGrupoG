@@ -89,7 +89,7 @@ public class GameController extends GameObject {
             if (currentMillis > waveTimestamp) {
                 // Spawn a new enemy
                 double prob = Math.random() * 101;
-                if (prob >= 30) {
+                if (prob >= 40) {
                     SpaceShipEnemy a = spaceShipEnemyPool.remove(0);
                     a.init(gameEngine);
                     gameEngine.addGameObject(a);
