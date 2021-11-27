@@ -67,7 +67,7 @@ public final class SoundManager {
         try {
             // Important to not reuse it. It can be on a strange state
             bgPlayer = new MediaPlayer();
-            AssetFileDescriptor afd = context.getAssets().openFd("sfx/Riccardo_Colombo_-_11_-_Something_mental.mp3");
+            AssetFileDescriptor afd = context.getAssets().openFd("sfx/musica_menu.mp3");
             bgPlayer.setDataSource(afd.getFileDescriptor(),
                     afd.getStartOffset(), afd.getLength());
             bgPlayer.setLooping(true);
