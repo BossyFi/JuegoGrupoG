@@ -44,10 +44,10 @@ public class SpaceShipEnemy extends Sprite {
         this.gameController = gameController;
         mBodyType = BodyType.Circular;
         //necesito otro sprite para el trail
-        mTrailParticleSystem = new ParticleSystem(gameEngine, 50, R.drawable.ship_a, 600)
+        mTrailParticleSystem = new ParticleSystem(gameEngine, 50, R.drawable.enemyship, 600)
                 .addModifier(new ScaleModifier(1, 2, 200, 600))
                 .setFadeOut(200);
-        mExplisionParticleSystem = new ParticleSystem(gameEngine, EXPLOSION_PARTICLES, R.drawable.a10000, 700)
+        mExplisionParticleSystem = new ParticleSystem(gameEngine, EXPLOSION_PARTICLES, R.drawable.enemyship, 700)
                 .setSpeedRange(15, 40)
                 .setFadeOut(300)
                 .setInitialRotationRange(0, 360)
