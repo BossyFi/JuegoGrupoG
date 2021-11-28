@@ -19,7 +19,7 @@ public class SpaceShipPlayer extends Sprite {
     private static final int INITIAL_BULLET_POOL_AMOUNT = 20;
     private static final long TIME_BETWEEN_BULLETS = 250;
     private static final long TIME_SPECIAL_ATTACK = 100;
-    private static final long MAX_BULLETS_FIRED = 1;
+    private static final long MAX_BULLETS_FIRED = 3;
     private long timeSinceLastSpecialAttack = 100;
     private static final int CD_RELOAD = 2000;
     private long timeSinceLastReload = 0;
