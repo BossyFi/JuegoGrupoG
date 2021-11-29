@@ -11,6 +11,9 @@ import dadm.scaffold.database.Preferences;
 import dadm.scaffold.engine.GameEngine;
 import dadm.scaffold.engine.ScreenGameObject;
 import dadm.scaffold.engine.Sprite;
+import dadm.scaffold.engine.particles.ParticleSystem;
+import dadm.scaffold.engine.particles.ScaleInitializer;
+import dadm.scaffold.engine.particles.ScaleModifier;
 import dadm.scaffold.input.InputController;
 import dadm.scaffold.sound.GameEvent;
 
@@ -30,6 +33,9 @@ public class SpaceShipPlayer extends Sprite {
 
     List<Bullet> bullets = new ArrayList<Bullet>();
 
+    private ParticleSystem mTrailParticleSystem; //necesito un sprite para el trail
+    private ParticleSystem mExplisionParticleSystem;
+    public static final int EXPLOSION_PARTICLES = 15;
 
     private static final int INITIAL_SPECIAL_BULLET_POOL_AMOUNT = 20;
     List<BulletLeft> bulletsLeft = new ArrayList<BulletLeft>();
@@ -53,8 +59,26 @@ public class SpaceShipPlayer extends Sprite {
         super(gameEngine, Preferences.GetShipValue(context, "PickedShip"), context);
         if (Preferences.GetShipValue(context, "PickedShip") == R.drawable.ship_a) {
             nextResourceIntegerId = R.drawable.ship_b;
+            mTrailParticleSystem = new ParticleSystem(gameEngine, 50, R.drawable.ship, 600)
+                    .addModifier(new ScaleModifier(1, 2, 200, 600))
+                    .setFadeOut(200);
+            mExplisionParticleSystem = new ParticleSystem(gameEngine, EXPLOSION_PARTICLES, R.drawable.ship, 700)
+                    .setSpeedRange(15, 40)
+                    .setFadeOut(300)
+                    .setInitialRotationRange(0, 360)
+                    .setRotationSpeedRange(-180, 180);
+            mExplisionParticleSystem.addInitializer(new ScaleInitializer(0.5));
         } else {
             nextResourceIntegerId = R.drawable.player2_b;
+            mTrailParticleSystem = new ParticleSystem(gameEngine, 50, R.drawable.player2, 600)
+                    .addModifier(new ScaleModifier(1, 2, 200, 600))
+                    .setFadeOut(200);
+            mExplisionParticleSystem = new ParticleSystem(gameEngine, EXPLOSION_PARTICLES, R.drawable.player2, 700)
+                    .setSpeedRange(15, 40)
+                    .setFadeOut(300)
+                    .setInitialRotationRange(0, 360)
+                    .setRotationSpeedRange(-180, 180);
+            mExplisionParticleSystem.addInitializer(new ScaleInitializer(0.5));
         }
 
         speedFactor = pixelFactor * 100d / 1000d; // We want to move at 100px per second on a 400px tall screen
@@ -233,6 +257,7 @@ public class SpaceShipPlayer extends Sprite {
             //gameEngine.stopGame();
             Asteroid a = (Asteroid) otherObject;
             a.removeObject(gameEngine);
+            explode(gameEngine);
             gameEngine.onGameEvent(GameEvent.SpaceshipHit);
         }
 
@@ -241,6 +266,7 @@ public class SpaceShipPlayer extends Sprite {
             //gameEngine.stopGame();
             EnemyBullet a = (EnemyBullet) otherObject;
             a.removeObject(gameEngine);
+            explode(gameEngine);
             //gameEngine.removeGameObject(a);
             // And return it to the pool
 //            parent.releaseBullet(this);
@@ -253,6 +279,7 @@ public class SpaceShipPlayer extends Sprite {
             //gameEngine.stopGame();
             SpaceShipEnemy a = (SpaceShipEnemy) otherObject;
             a.removeObject(gameEngine);
+            explode(gameEngine);
             gameEngine.onGameEvent(GameEvent.SpaceshipHit);
         }
 
@@ -285,5 +312,9 @@ public class SpaceShipPlayer extends Sprite {
             }
         }
         super.onDraw(canvas);
+    }
+
+    public void explode(GameEngine gameEngine) {
+        mExplisionParticleSystem.oneShot(gameEngine, positionX + width / 2.0, positionY + height / 2.0, EXPLOSION_PARTICLES);
     }
 }
