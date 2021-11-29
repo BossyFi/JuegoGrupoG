@@ -15,7 +15,7 @@ import dadm.scaffold.sound.GameEvent;
 
 public class GameController extends GameObject {
 
-    private static final int TIME_BETWEEN_ENEMIES = 800;
+    private static final int TIME_BETWEEN_ENEMIES = 1000;
     private long currentMillis;
     private List<Asteroid> asteroidPool = new ArrayList<Asteroid>();
     private List<PowerUp> powerUpPool = new ArrayList<PowerUp>();
